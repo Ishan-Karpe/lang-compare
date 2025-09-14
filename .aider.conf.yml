@@ -1,0 +1,7 @@
+read:
+  - .github/copilot-instructions.md
+
+api-key:
+  - gemini=AIzaSyCyXjhIedkfWXvv60f5xUJxudsOpw7X2x0 # Sets env var GEMINI_API_KEY=foo
+  - openrouter= # Sets env var OPENROUTER_API_KEY=bar
+  - deepseek= # Sets env var DEEPSEEK_API_KEY=baz

@@ -1,0 +1,16 @@
+.claude/
+.github/**
+.qwen/**
+.roo/**
+.venv**
+.vscode/**
+.git/**
+.clinerules/**
+node_modules/**
+secrets/**
+config/credentials.json
+build/
+dist/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

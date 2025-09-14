@@ -1,0 +1,36 @@
+@import 'tailwindcss';
+@plugin "daisyui" {
+	themes: all;
+}
+
+/* Smooth transitions for theme changes and UI interactions */
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	transition:
+		background-color 0.3s ease,
+		color 0.3s ease;
+}
+
+/* Smooth transitions for buttons and interactive elements */
+.btn {
+	transition: all 0.2s ease;
+}
+
+/* Smooth transitions for dropdowns */
+.dropdown-content {
+	transition:
+		opacity 0.2s ease,
+		transform 0.2s ease;
+}
+
+/* Smooth transitions for tables */
+.table {
+	transition: box-shadow 0.2s ease;
+}
+
+.table tr:hover {
+	transition: background-color 0.2s ease;
+}

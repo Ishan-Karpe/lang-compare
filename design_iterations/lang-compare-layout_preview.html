@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Lang Compare - HTML Preview</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<script src="https://cdn.tailwindcss.com"></script>
+	</head>
+	<body>
+		<div class="drawer lg:drawer-open">
+			<input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+			<div class="drawer-content flex flex-col bg-base-200">
+				<!-- Header -->
+				<header id="header" class="sticky top-0 z-30 w-full bg-base-100/80 shadow-sm backdrop-blur">
+					<div class="navbar px-4">
+						<div class="navbar-start">
+							<label for="my-drawer-2" class="btn btn-square btn-ghost lg:hidden">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									class="inline-block h-6 w-6 stroke-current"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M4 6h16M4 12h16M4 18h16"
+									></path>
+								</svg>
+							</label>
+							<a href="#" class="px-2 text-xl font-bold">Lang Compare</a>
+						</div>
+						<div class="navbar-center hidden lg:flex">
+							<!-- Language Selector -->
+							<div class="btn-group" id="language-selector">
+								<button class="btn">Rust</button>
+								<button class="btn">Python</button>
+								<button class="btn btn-active">TypeScript</button>
+								<button class="btn">JavaScript</button>
+							</div>
+						</div>
+						<div class="navbar-end">
+							<!-- Detail Level Toggle -->
+							<div class="join hidden sm:inline-flex" id="detail-toggle">
+								<button class="btn btn-active join-item btn-sm">Simple</button>
+								<button class="btn join-item btn-sm">Detailed</button>
+								<button class="btn join-item btn-sm">Expert</button>
+							</div>
+							<!-- Theme Switcher -->
+							<div class="dropdown dropdown-end ml-4" id="theme-switcher">
+								<div tabindex="0" role="button" class="btn btn-ghost">
+									<svg
+										width="20"
+										height="20"
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										class="h-5 w-5 stroke-current"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h8a2 2 0 002-2v-4a2 2 0 00-2-2h-8a2 2 0 00-2 2v4a2 2 0 002 2z"
+										></path>
+									</svg>
+									<span class="hidden md:inline">Theme</span>
+									<svg
+										width="12px"
+										height="12px"
+										class="ml-1 hidden h-3 w-3 fill-current opacity-60 sm:inline-block"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 2048 2048"
+									>
+										<path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path>
+									</svg>
+								</div>
+								<ul
+									tabindex="0"
+									class="dropdown-content menu z-[1] w-52 rounded-box bg-base-300 p-2 shadow"
+								>
+									<li><a href="#">Light</a></li>
+									<li><a href="#">Dark</a></li>
+									<li><a href="#">Cupcake</a></li>
+									<li><a href="#">Synthwave</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</header>
+
+				<!-- Main Content -->
+				<main id="main-content" class="p-4 md:p-8">
+					<!-- Variables Section -->
+					<section id="variables-section">
+						<h2 class="mb-6 text-3xl font-extrabold">Variables</h2>
+						<div id="comparison-grid-variables" class="grid grid-cols-1 gap-6 md:grid-cols-2">
+							<div id="daisy-card-rust-vars" class="card bg-base-100 shadow-xl">
+								<div class="card-body">
+									<h3 class="card-title">Rust</h3>
+									<div class="mockup-code">
+										<pre data-prefix="1"><code>// Code snippet...</code></pre>
+									</div>
+								</div>
+							</div>
+							<div id="daisy-card-python-vars" class="card bg-base-100 shadow-xl">
+								<div class="card-body">
+									<h3 class="card-title">Python</h3>
+									<div class="mockup-code">
+										<pre data-prefix="1"><code># Code snippet...</code></pre>
+									</div>
+								</div>
+							</div>
+							<div id="daisy-card-typescript-vars" class="card bg-base-100 shadow-xl">
+								<div class="card-body">
+									<h3 class="card-title">TypeScript</h3>
+									<div class="mockup-code">
+										<pre data-prefix="1"><code>// Code snippet...</code></pre>
+									</div>
+								</div>
+							</div>
+							<div id="daisy-card-javascript-vars" class="card bg-base-100 shadow-xl">
+								<div class="card-body">
+									<h3 class="card-title">JavaScript</h3>
+									<div class="mockup-code">
+										<pre data-prefix="1"><code>// Code snippet...</code></pre>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<!-- Data Types Section -->
+					<section id="data-types-section" class="mt-12">
+						<h2 class="mb-6 text-3xl font-extrabold">Data Types</h2>
+						<div id="comparison-grid-types" class="grid grid-cols-1 gap-6 md:grid-cols-2">
+							<div id="daisy-card-rust-types" class="card bg-base-100 shadow-xl">
+								<div class="card-body">
+									<h3 class="card-title">Rust</h3>
+									<div class="mockup-code">
+										<pre data-prefix="1"><code>// Primitives, Structs...</code></pre>
+									</div>
+								</div>
+							</div>
+							<div id="daisy-card-python-types" class="card bg-base-100 shadow-xl">
+								<div class="card-body">
+									<h3 class="card-title">Python</h3>
+									<div class="mockup-code">
+										<pre data-prefix="1"><code># Primitives, Objects...</code></pre>
+									</div>
+								</div>
+							</div>
+							<div id="daisy-card-typescript-types" class="card bg-base-100 shadow-xl">
+								<div class="card-body">
+									<h3 class="card-title">TypeScript</h3>
+									<div class="mockup-code">
+										<pre data-prefix="1"><code>// Primitives, Interfaces...</code></pre>
+									</div>
+								</div>
+							</div>
+							<div id="daisy-card-javascript-types" class="card bg-base-100 shadow-xl">
+								<div class="card-body">
+									<h3 class="card-title">JavaScript</h3>
+									<div class="mockup-code">
+										<pre data-prefix="1"><code>// Primitives, Objects...</code></pre>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</main>
+			</div>
+			<div class="drawer-side">
+				<label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+				<nav>
+					<ul id="feature-menu" class="menu min-h-full w-60 bg-base-100 p-4 text-base-content">
+						<li class="menu-title">Features</li>
+						<li><a href="#">Variables</a></li>
+						<li><a href="#">Data Types</a></li>
+						<li><a href="#">Functions</a></li>
+						<li><a href="#">Control Flow</a></li>
+						<li><a href="#">Error Handling</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</body>
+</html>
