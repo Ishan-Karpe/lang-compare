@@ -22,11 +22,16 @@
 		return list;
 	})();
 
+	// Default languages to show when first launching the site
+	const defaultLanguages = ['Java (LTS)', 'Python 3.12'];
+
 	// Initialize persisted store on first mount if empty
 	onMount(() => {
 		const cur = get(visibleLanguages) || [];
 		if (!cur || cur.length === 0) {
-			setLanguages(allLanguages);
+			// Filter defaultLanguages to only include those that exist in allLanguages
+			const availableDefaults = defaultLanguages.filter(lang => allLanguages.includes(lang));
+			setLanguages(availableDefaults.length > 0 ? availableDefaults : allLanguages);
 		}
 	});
 
