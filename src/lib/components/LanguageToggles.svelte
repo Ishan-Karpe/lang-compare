@@ -47,7 +47,7 @@
 </script>
 
 <div class="z-20 border-b border-base-200 bg-base-100/90 backdrop-blur-sm">
-	<div class="container mx-auto py-2 2xl:max-w-7xl">
+	<div class="container mx-auto py-2">
 		<div
 			class="flex items-center gap-2 overflow-x-auto px-2"
 			role="toolbar"

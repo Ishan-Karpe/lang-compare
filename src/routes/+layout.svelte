@@ -16,7 +16,7 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="drawer transition-all duration-300 lg:drawer-open">
+<div class="drawer transition-all duration-300">
 	<input id="my-drawer" type="checkbox" class="drawer-toggle" />
 	<div class="drawer-content flex flex-col">
 		<Header />

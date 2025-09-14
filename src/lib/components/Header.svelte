@@ -8,7 +8,7 @@
 	<div class="navbar-start">
 		<label
 			for="my-drawer"
-			class="drawer-button btn btn-square btn-ghost transition-all duration-200 hover:bg-base-200 lg:hidden"
+			class="drawer-button btn btn-square btn-ghost transition-all duration-200 hover:bg-base-200"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -27,7 +27,7 @@
 			>LangCompare</a
 		>
 	</div>
-	<div class="navbar-center hidden lg:flex">
+	<div class="navbar-center hidden">
 		<!-- Detail Level Toggle -->
 		<div class="join">
 			{#each detailLevels as level (level)}
@@ -43,7 +43,7 @@
 	</div>
 	<div class="navbar-end">
 		<!-- Detail Level Toggle (Mobile) -->
-		<div class="dropdown dropdown-end lg:hidden">
+		<div class="dropdown dropdown-end">
 			<div
 				tabindex="0"
 				role="button"

@@ -9,6 +9,6 @@
 <!-- Language toggles (sticky toolbar) -->
 <LanguageToggles />
 
-<div class="container mx-auto 2xl:max-w-7xl">
+<div class="container mx-auto">
 	<ComparisonTable comparisonData={data.comparisonData} />
 </div>
