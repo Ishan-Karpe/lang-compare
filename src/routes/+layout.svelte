@@ -8,16 +8,11 @@
 
 	let { children } = $props();
 
-	// Drawer state - open by default on desktop, closed on mobile
+	// Drawer state - closed by default on all screen sizes
 	let drawerOpen = $state(false);
 
 	$effect(() => {
 		document.documentElement.setAttribute('data-theme', $theme);
-	});
-
-	// Set initial drawer state based on screen size
-	onMount(() => {
-		drawerOpen = window.innerWidth >= 1024; // lg breakpoint
 	});
 </script>
 

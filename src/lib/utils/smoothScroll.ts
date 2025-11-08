@@ -1,3 +1,5 @@
+import { pushState } from '$app/navigation';
+
 /**
  * Smooth scroll to element with offset for fixed headers
  */
@@ -36,8 +38,8 @@ export function setupSmoothScroll() {
 				const elementId = href.substring(1);
 				smoothScrollToElement(elementId);
 
-				// Update URL without triggering navigation
-				window.history.pushState(null, '', href);
+				// Update URL without triggering navigation using SvelteKit's pushState
+				pushState(href, {});
 
 				// Mark active link
 				updateActiveLink(elementId);

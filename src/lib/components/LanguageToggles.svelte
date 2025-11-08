@@ -59,18 +59,32 @@
 	});
 
 	function toggle(lang: string) {
+		const cur = get(visibleLanguages) || [];
+
+		// Check if this is the last selected language
+		if (cur.length === 1 && cur.includes(lang)) {
+			alert('Please select at least one language to compare.');
+			return;
+		}
+
 		toggleLanguage(lang);
 	}
 
-	function selectAll() {
-		setLanguages(allLanguages);
+	function toggleAll() {
+		const cur = get(visibleLanguages) || [];
+		// If all languages are selected, deselect all and set to Python only
+		if (cur.length === allLanguages.length) {
+			setLanguages(['Python 3.12']);
+		} else {
+			// Otherwise, select all languages
+			setLanguages(allLanguages);
+		}
 	}
 
-	function unselectAll() {
-		// Setting to empty will be interpreted as "show none" by UI,
-		// but ComparisonTable treats empty as "all" — we prefer explicit empty;
-		// callers can use this to clear selection.
-		clearLanguages();
+	// Check if all languages are selected
+	function areAllSelected(): boolean {
+		const cur = get(visibleLanguages) || [];
+		return cur.length === allLanguages.length;
 	}
 </script>
 
@@ -85,10 +99,12 @@
 			<div class="flex items-center gap-2 pr-3 border-r border-base-300">
 				<span class="text-sm font-medium text-base-content/70 hidden sm:inline">Quick:</span>
 				<button
-					class="btn btn-sm btn-primary btn-outline gap-1"
-					on:click={selectAll}
-					aria-label="Show all languages"
-					title="Show all languages"
+					class="btn btn-sm gap-1 transition-all duration-200"
+					class:btn-primary={areAllSelected()}
+					class:btn-outline={!areAllSelected()}
+					on:click={toggleAll}
+					aria-label={areAllSelected() ? 'Deselect all languages' : 'Select all languages'}
+					title={areAllSelected() ? 'Click to show Python only' : 'Click to show all languages'}
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -105,28 +121,6 @@
 						/>
 					</svg>
 					All
-				</button>
-				<button
-					class="btn btn-sm btn-ghost gap-1"
-					on:click={unselectAll}
-					aria-label="Clear language selection"
-					title="Clear language selection"
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						class="h-4 w-4"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M6 18L18 6M6 6l12 12"
-						/>
-					</svg>
-					None
 				</button>
 			</div>
 

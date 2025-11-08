@@ -14,7 +14,7 @@
 
 	// Filter snippets to only show visible languages
 	const visibleSnippets = $derived(
-		snippets.filter((snippet) => visibleLanguages.includes(snippet.language))
+		snippets.filter((snippet: Snippet) => visibleLanguages.includes(snippet.language))
 	);
 </script>
 
