@@ -25,9 +25,36 @@
 </script>
 
 <div
-	class="font-mono text-sm whitespace-pre-wrap transition-all duration-300 ease-in-out"
+	class="code-content font-mono text-sm whitespace-pre-wrap transition-all duration-300 ease-in-out"
 	class:hidden={!isVisible}
 >
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html snippet.contentHtml}
 </div>
+
+<style>
+	.code-content {
+		line-height: 1.6;
+		max-width: 100%;
+		overflow-x: auto;
+	}
+
+	/* Enhanced code block styling */
+	.code-content :global(pre) {
+		margin: 0;
+		padding: 0;
+		background: transparent;
+		border-radius: 0.5rem;
+	}
+
+	.code-content :global(code) {
+		font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+		font-size: 0.875rem;
+	}
+
+	/* Improve readability */
+	.code-content :global(.line) {
+		display: block;
+		min-height: 1.5rem;
+	}
+</style>

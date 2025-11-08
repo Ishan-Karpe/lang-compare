@@ -47,34 +47,66 @@
 	);
 </script>
 
-<nav>
+<nav class="sidebar-nav">
 	<ul
 		id="feature-menu"
-		class="menu min-h-full w-60 bg-base-100 p-4 text-base-content transition-all duration-300"
+		class="menu min-h-full w-60 lg:w-72 bg-base-100 p-4 text-base-content border-r border-base-300"
 	>
-		<li class="menu-title">
-			<span class="text-lg font-bold">Features</span>
+		<li class="menu-title mb-4">
+			<span class="text-xl font-bold">Categories</span>
 		</li>
 		{#each menuItems as item (item.id)}
-			<li>
-				<a href="#{item.id}" class="rounded-btn transition-all duration-200 hover:bg-base-200">
-					{item.label}
+			<li class="mb-1">
+				<a
+					href="#{item.id}"
+					class="nav-link rounded-lg font-medium hover:bg-primary/10 hover:text-primary transition-all duration-200"
+				>
+					<span class="text-base">{item.label}</span>
 				</a>
-				{#if item.children && item.children.length > 0}
-					<ul class="ml-4">
-						{#each item.children as child (child.id)}
-							<li>
-								<a
-									href="#{item.id}-{child.id}"
-									class="rounded-btn transition-all duration-200 hover:bg-base-200"
-								>
-									{child.label}
-								</a>
-							</li>
-						{/each}
-					</ul>
-				{/if}
 			</li>
 		{/each}
 	</ul>
 </nav>
+
+<style>
+	.sidebar-nav {
+		height: 100%;
+		overflow-y: auto;
+	}
+
+	.nav-link {
+		padding: 0.75rem 1rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.nav-link:hover {
+		transform: translateX(4px);
+	}
+
+	/* Active link styling */
+	:global(.nav-link.active) {
+		background-color: hsl(var(--p) / 0.15);
+		color: hsl(var(--p));
+		font-weight: 600;
+	}
+
+	/* Smooth scrollbar for sidebar */
+	.sidebar-nav::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	.sidebar-nav::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	.sidebar-nav::-webkit-scrollbar-thumb {
+		background: hsl(var(--bc) / 0.2);
+		border-radius: 4px;
+	}
+
+	.sidebar-nav::-webkit-scrollbar-thumb:hover {
+		background: hsl(var(--bc) / 0.3);
+	}
+</style>

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Snippet } from '$lib/types';
-	import CodeCard from './CodeCard.svelte';
+	import CategoryHeader from './CategoryHeader.svelte';
+	import FeatureCard from './FeatureCard.svelte';
 	import { detailLevel, visibleLanguages } from '$lib/stores/uiStore';
-	import slugify from '$lib/utils/slugify';
 
 	interface ComparisonRow {
 		category: string;
@@ -63,46 +63,48 @@
 		})()
 	);
 
-	// Helper: given a row and a language name, find the snippet or undefined
-	function findSnippet(row: ComparisonRow, lang: string): Snippet | undefined {
-		return row.snippets.find((s) => s.language === lang);
-	}
+	// Category descriptions for better context
+	const categoryDescriptions: Record<string, string> = {
+		'Data Structures': 'Arrays, Lists, Maps, Sets, and Collection Types',
+		'Control Flow': 'Conditional Statements, Loops, and Flow Control',
+		'Functions': 'Function Declarations, Parameters, and Return Values',
+		'Object-Oriented Programming': 'Classes, Inheritance, and Polymorphism',
+		'Error Handling': 'Exception Handling and Error Management',
+		'Concurrency & Async': 'Async/Await, Promises, and Concurrent Programming',
+		'File I/O': 'File Reading, Writing, and Management',
+		'Networking': 'HTTP, Sockets, and Network Communication',
+		'Testing': 'Unit Tests, Assertions, and Test Frameworks',
+		'Metaprogramming': 'Reflection, Decorators, and Runtime Manipulation',
+		'Standard Library': 'Built-in Functions and Standard Modules',
+		'Memory Management': 'Allocation, Deallocation, and Memory Control',
+		'Type System': 'Type Annotations, Generics, and Type Safety'
+	};
 </script>
 
 {#each Object.entries(groupedData) as [category, rows] (category)}
-	<section id={slugify(category)} class="mt-12 transition-all duration-300">
-		<h2 class="mb-6 text-3xl font-extrabold transition-all duration-300">{category}</h2>
-		<div class="overflow-x-auto rounded-box transition-all duration-300">
-			<table class="table w-full table-zebra transition-all duration-300">
-				<thead>
-					<tr>
-						<th class="transition-all duration-200">Description</th>
-						{#if activeLangs && activeLangs.length > 0}
-							{#each activeLangs as lang (lang)}
-								<th class="transition-all duration-200">{lang}</th>
-							{/each}
-						{/if}
-					</tr>
-				</thead>
-				<tbody>
-					{#each rows as row (row.feature)}
-						<tr
-							id={`${slugify(category)}-${slugify(row.feature)}`}
-							class="transition-all duration-200 hover:bg-base-200"
-						>
-							<td class="transition-all duration-200">{row.feature}</td>
-							{#each activeLangs as lang (lang)}
-								{@const s = findSnippet(row, lang)}
-								<td class="transition-all duration-200">
-									{#if s}
-										<CodeCard snippet={s} />
-									{/if}
-								</td>
-							{/each}
-						</tr>
-					{/each}
-				</tbody>
-			</table>
+	<section class="category-section">
+		<CategoryHeader {category} description={categoryDescriptions[category] || ''} />
+
+		<div class="space-y-8">
+			{#each rows as row (row.feature)}
+				<FeatureCard feature={row.feature} snippets={row.snippets} visibleLanguages={activeLangs} />
+			{/each}
 		</div>
 	</section>
 {/each}
+
+<style>
+	.category-section {
+		margin-bottom: 4rem;
+		animation: fadeIn 0.4s ease-out;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+</style>

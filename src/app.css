@@ -3,34 +3,161 @@
 	themes: all;
 }
 
-/* Smooth transitions for theme changes and UI interactions */
+/* ==================== Global Styles ==================== */
+
+/* Smooth scrolling with offset for fixed headers */
 html {
 	scroll-behavior: smooth;
+	scroll-padding-top: 120px;
 }
 
 body {
 	transition:
 		background-color 0.3s ease,
 		color 0.3s ease;
+	overflow-x: hidden;
 }
 
-/* Smooth transitions for buttons and interactive elements */
+/* Better font rendering */
+* {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* ==================== Component Transitions ==================== */
+
 .btn {
 	transition: all 0.2s ease;
 }
 
-/* Smooth transitions for dropdowns */
+.btn:active {
+	transform: scale(0.95);
+}
+
 .dropdown-content {
 	transition:
 		opacity 0.2s ease,
 		transform 0.2s ease;
 }
 
-/* Smooth transitions for tables */
-.table {
-	transition: box-shadow 0.2s ease;
+.card {
+	transition:
+		transform 0.2s ease,
+		box-shadow 0.2s ease;
 }
 
-.table tr:hover {
-	transition: background-color 0.2s ease;
+/* ==================== Code Styling ==================== */
+
+/* Better code block appearance */
+pre,
+code {
+	font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
+	font-variant-ligatures: common-ligatures;
+}
+
+/* Syntax highlighting enhancements */
+.shiki {
+	background: transparent !important;
+	padding: 0 !important;
+}
+
+/* ==================== Animations ==================== */
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideIn {
+	from {
+		opacity: 0;
+		transform: translateX(-20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}
+
+/* ==================== Utility Classes ==================== */
+
+.fade-in {
+	animation: fadeIn 0.3s ease-out;
+}
+
+.slide-in {
+	animation: slideIn 0.3s ease-out;
+}
+
+/* ==================== Responsive Improvements ==================== */
+
+/* Better mobile spacing */
+@media (max-width: 768px) {
+	html {
+		scroll-padding-top: 100px;
+	}
+}
+
+/* ==================== Custom Scrollbar ==================== */
+
+::-webkit-scrollbar {
+	width: 12px;
+	height: 12px;
+}
+
+::-webkit-scrollbar-track {
+	background: hsl(var(--b2));
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: hsl(var(--bc) / 0.3);
+	border-radius: 10px;
+	border: 3px solid hsl(var(--b2));
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: hsl(var(--bc) / 0.5);
+}
+
+/* ==================== Focus States ==================== */
+
+*:focus-visible {
+	outline: 2px solid hsl(var(--p));
+	outline-offset: 2px;
+	border-radius: 0.25rem;
+}
+
+button:focus-visible,
+a:focus-visible {
+	outline-offset: 4px;
+}
+
+/* ==================== Selection ==================== */
+
+::selection {
+	background: hsl(var(--p) / 0.3);
+	color: hsl(var(--pc));
+}
+
+/* ==================== Loading States ==================== */
+
+.skeleton {
+	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

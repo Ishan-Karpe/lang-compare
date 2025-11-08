@@ -1,7 +1,7 @@
 import { persisted } from 'svelte-persisted-store';
 import { writable, get } from 'svelte/store';
 
-export const theme = persisted('theme', 'light');
+export const theme = persisted('theme', 'dark');
 
 // Detail level is session-only, not persisted
 export type DetailLevel = 'simple' | 'detailed' | 'expert';
