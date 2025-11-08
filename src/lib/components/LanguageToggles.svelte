@@ -1,11 +1,6 @@
 <script lang="ts">
 	import comparisonData from '$lib/data/comparison-data.json';
-	import {
-		visibleLanguages,
-		toggleLanguage,
-		setLanguages,
-		clearLanguages
-	} from '$lib/stores/uiStore';
+	import { visibleLanguages, toggleLanguage, setLanguages } from '$lib/stores/uiStore';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
@@ -24,18 +19,6 @@
 
 	// Default languages to show when first launching the site
 	const defaultLanguages = ['Java (LTS)', 'Python 3.12'];
-
-	// Language emoji/icon mapping
-	const languageIcons: Record<string, string> = {
-		'Python 3.12': '🐍',
-		'JavaScript (ES6+)': '💛',
-		'TypeScript': '💙',
-		'Java (LTS)': '☕',
-		'Rust': '🦀',
-		'Go': '🐹',
-		'C (C17)': '⚙️',
-		'C++ (C++20)': '⚡'
-	};
 
 	// Count snippets per language for display
 	const languageCounts: Record<string, number> = (() => {
@@ -88,18 +71,20 @@
 	}
 </script>
 
-<div class="language-toolbar sticky top-16 z-10 border-b border-base-200 bg-base-100/95 backdrop-blur-sm shadow-sm max-w-full overflow-hidden">
-	<div class="container mx-auto py-3 px-4 max-w-full">
+<div
+	class="language-toolbar sticky top-16 z-10 max-w-full overflow-hidden border-b border-base-200 bg-base-100/95 shadow-sm backdrop-blur-sm"
+>
+	<div class="container mx-auto max-w-full px-4 py-3">
 		<div
-			class="flex items-center gap-3 overflow-x-auto scrollbar-hide"
+			class="scrollbar-hide flex items-center gap-3 overflow-x-auto"
 			role="toolbar"
 			aria-label="Language selection controls"
 		>
 			<!-- Quick Select Section -->
-			<div class="flex items-center gap-2 pr-3 border-r border-base-300">
-				<span class="text-sm font-medium text-base-content/70 hidden sm:inline">Quick:</span>
+			<div class="flex items-center gap-2 border-r border-base-300 pr-3">
+				<span class="hidden text-sm font-medium text-base-content/70 sm:inline">Quick:</span>
 				<button
-					class="btn btn-sm gap-1 transition-all duration-200"
+					class="btn gap-1 transition-all duration-200 btn-sm"
 					class:btn-primary={areAllSelected()}
 					class:btn-outline={!areAllSelected()}
 					on:click={toggleAll}
@@ -125,13 +110,13 @@
 			</div>
 
 			<!-- Language Pills -->
-			<div class="flex items-center gap-2 flex-wrap">
+			<div class="flex flex-wrap items-center gap-2">
 				{#if allLanguages.length > 0}
 					{#each allLanguages as lang (lang)}
 						{@const isActive = $visibleLanguages && $visibleLanguages.includes(lang)}
 						{@const count = languageCounts[lang] || 0}
 						<button
-							class="language-pill btn btn-sm gap-2 transition-all duration-200"
+							class="language-pill btn gap-2 transition-all duration-200 btn-sm"
 							class:btn-primary={isActive}
 							class:btn-outline={!isActive}
 							class:pill-active={isActive}
@@ -142,7 +127,7 @@
 						>
 							<span class="font-medium whitespace-nowrap">{lang}</span>
 							{#if isActive}
-								<span class="badge badge-sm badge-primary opacity-70">{count}</span>
+								<span class="badge badge-sm opacity-70 badge-primary">{count}</span>
 							{/if}
 						</button>
 					{/each}

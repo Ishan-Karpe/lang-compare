@@ -67,14 +67,14 @@
 	const categoryDescriptions: Record<string, string> = {
 		'Data Structures': 'Arrays, Lists, Maps, Sets, and Collection Types',
 		'Control Flow': 'Conditional Statements, Loops, and Flow Control',
-		'Functions': 'Function Declarations, Parameters, and Return Values',
+		Functions: 'Function Declarations, Parameters, and Return Values',
 		'Object-Oriented Programming': 'Classes, Inheritance, and Polymorphism',
 		'Error Handling': 'Exception Handling and Error Management',
 		'Concurrency & Async': 'Async/Await, Promises, and Concurrent Programming',
 		'File I/O': 'File Reading, Writing, and Management',
-		'Networking': 'HTTP, Sockets, and Network Communication',
-		'Testing': 'Unit Tests, Assertions, and Test Frameworks',
-		'Metaprogramming': 'Reflection, Decorators, and Runtime Manipulation',
+		Networking: 'HTTP, Sockets, and Network Communication',
+		Testing: 'Unit Tests, Assertions, and Test Frameworks',
+		Metaprogramming: 'Reflection, Decorators, and Runtime Manipulation',
 		'Standard Library': 'Built-in Functions and Standard Modules',
 		'Memory Management': 'Allocation, Deallocation, and Memory Control',
 		'Type System': 'Type Annotations, Generics, and Type Safety'

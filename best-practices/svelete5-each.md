@@ -57,3 +57,4 @@ Keys should be strings or numbers for identity persistence.
 {:else}
 	<p>No tasks today!</p>
 {/each}
+```

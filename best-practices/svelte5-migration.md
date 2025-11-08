@@ -14,73 +14,83 @@ Comprehensive migration patterns showing syntax changes from Svelte 4 to Svelte 
 ## Reactive State
 
 **Svelte 4:**
+
 ```svelte
 <script>
-  let count = 0;
+	let count = 0;
 </script>
+
 <button on:click={() => count++}>Count: {count}</button>
 ```
 
 **Svelte 5:**
+
 ```svelte
 <script>
-  let count = $state(0);
+	let count = $state(0);
 </script>
+
 <button onclick={() => count++}>Count: {count}</button>
 ```
 
 ## Props & Derived State
 
 **Svelte 4:**
+
 ```svelte
 <script>
-  export let name;
-  export let age = 21;
-  $: greeting = `Hello ${name}`;
+	export let name;
+	export let age = 21;
+	$: greeting = `Hello ${name}`;
 </script>
 ```
 
 **Svelte 5:**
+
 ```svelte
 <script>
-  let { name, age = 21 } = $props();
-  const greeting = $derived(`Hello ${name}`);
+	let { name, age = 21 } = $props();
+	const greeting = $derived(`Hello ${name}`);
 </script>
 ```
 
 ## Effects & Lifecycle
 
 **Svelte 4:**
+
 ```svelte
 <script>
-  import { onMount, onDestroy } from 'svelte';
-  
-  onMount(() => {
-    const timer = setInterval(() => count++, 1000);
-    onDestroy(() => clearInterval(timer));
-  });
+	import { onMount, onDestroy } from 'svelte';
+
+	onMount(() => {
+		const timer = setInterval(() => count++, 1000);
+		onDestroy(() => clearInterval(timer));
+	});
 </script>
 ```
 
 **Svelte 5:**
+
 ```svelte
 <script>
-  $effect(() => {
-    const timer = setInterval(() => count++, 1000);
-    return () => clearInterval(timer);
-  });
+	$effect(() => {
+		const timer = setInterval(() => count++, 1000);
+		return () => clearInterval(timer);
+	});
 </script>
 ```
 
 ## Component Communication
 
 **Svelte 4:**
+
 ```svelte
 <!-- Child.svelte -->
 <script>
-  import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 </script>
+
 <button on:click={() => dispatch('message', 'data')}>Send</button>
 
 <!-- Parent.svelte -->
@@ -88,11 +98,13 @@ Comprehensive migration patterns showing syntax changes from Svelte 4 to Svelte 
 ```
 
 **Svelte 5:**
+
 ```svelte
 <!-- Child.svelte -->
 <script>
-  let { onMessage } = $props();
+	let { onMessage } = $props();
 </script>
+
 <button onclick={() => onMessage?.('data')}>Send</button>
 
 <!-- Parent.svelte -->

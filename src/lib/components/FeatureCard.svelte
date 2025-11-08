@@ -2,11 +2,7 @@
 	import type { Snippet } from '$lib/types';
 	import CodeCard from './CodeCard.svelte';
 
-	let {
-		feature,
-		snippets,
-		visibleLanguages
-	} = $props<{
+	let { feature, snippets, visibleLanguages } = $props<{
 		feature: string;
 		snippets: Snippet[];
 		visibleLanguages: string[];
@@ -20,26 +16,26 @@
 
 {#if visibleSnippets.length > 0}
 	<div class="feature-section mb-12 max-w-full">
-		<h3 class="text-xl font-semibold text-base-content/90 mb-4 px-2">{feature}</h3>
+		<h3 class="mb-4 px-2 text-xl font-semibold text-base-content/90">{feature}</h3>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-full">
-			{#each visibleSnippets as snippet}
+		<div class="grid max-w-full grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+			{#each visibleSnippets as snippet (snippet.language)}
 				<div class="code-card-wrapper">
 					<div
-						class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-1 border border-base-300"
+						class="card border border-base-300 bg-base-100 shadow-lg transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
 					>
 						<div class="card-body p-0">
 							<!-- Language Header -->
 							<div
-								class="flex items-center gap-2 px-5 pt-4 pb-3 border-b border-base-300 bg-base-200/50"
+								class="flex items-center gap-2 border-b border-base-300 bg-base-200/50 px-5 pt-4 pb-3"
 							>
 								<div class="flex-1">
-									<h4 class="font-medium text-sm uppercase tracking-wide text-base-content/80">
+									<h4 class="text-sm font-medium tracking-wide text-base-content/80 uppercase">
 										{snippet.language}
 									</h4>
 								</div>
 								<button
-									class="btn btn-ghost btn-xs btn-square copy-btn"
+									class="copy-btn btn btn-square btn-ghost btn-xs"
 									aria-label="Copy code"
 									data-code={snippet.contentHtml}
 								>
@@ -61,7 +57,7 @@
 							</div>
 
 							<!-- Code Content -->
-							<div class="px-3 sm:px-5 py-4 bg-base-100 rounded-b-2xl overflow-x-auto max-w-full">
+							<div class="max-w-full overflow-x-auto rounded-b-2xl bg-base-100 px-3 py-4 sm:px-5">
 								<CodeCard {snippet} />
 							</div>
 						</div>
@@ -129,10 +125,7 @@
 
 	@media (min-width: 1025px) {
 		.grid {
-			grid-template-columns: repeat(
-				auto-fit,
-				minmax(max(300px, calc((100% - 3rem) / 3)), 1fr)
-			);
+			grid-template-columns: repeat(auto-fit, minmax(max(300px, calc((100% - 3rem) / 3)), 1fr));
 		}
 	}
 </style>

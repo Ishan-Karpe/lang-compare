@@ -50,16 +50,16 @@
 <nav class="sidebar-nav">
 	<ul
 		id="feature-menu"
-		class="menu min-h-full w-60 lg:w-72 bg-base-100 p-4 text-base-content border-r border-base-300"
+		class="menu min-h-full w-60 border-r border-base-300 bg-base-100 p-4 text-base-content lg:w-72"
 	>
-		<li class="menu-title mb-4">
+		<li class="mb-4 menu-title">
 			<span class="text-xl font-bold">Categories</span>
 		</li>
 		{#each menuItems as item (item.id)}
 			<li class="mb-1">
 				<a
 					href="#{item.id}"
-					class="nav-link rounded-lg font-medium hover:bg-primary/10 hover:text-primary transition-all duration-200"
+					class="nav-link rounded-lg font-medium transition-all duration-200 hover:bg-primary/10 hover:text-primary"
 				>
 					<span class="text-base">{item.label}</span>
 				</a>

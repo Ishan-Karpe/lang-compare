@@ -4,11 +4,11 @@
 	const detailLevels: DetailLevel[] = ['simple', 'detailed', 'expert'];
 </script>
 
-<div class="sticky top-0 z-30 navbar bg-base-100 transition-all duration-300 px-2 sm:px-4">
+<div class="sticky top-0 z-30 navbar bg-base-100 px-2 transition-all duration-300 sm:px-4">
 	<div class="navbar-start gap-1 sm:gap-2">
 		<label
 			for="my-drawer"
-			class="drawer-button btn btn-square btn-ghost transition-all duration-200 hover:bg-base-200 btn-sm sm:btn-md"
+			class="drawer-button btn btn-square btn-ghost transition-all duration-200 btn-sm hover:bg-base-200 sm:btn-md"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,9 @@
 				></path></svg
 			>
 		</label>
-		<a href="/" class="btn text-base sm:text-xl btn-ghost transition-all duration-200 hover:bg-base-200 px-2 sm:px-4"
+		<a
+			href="/"
+			class="btn px-2 text-base btn-ghost transition-all duration-200 hover:bg-base-200 sm:px-4 sm:text-xl"
 			>LangCompare</a
 		>
 	</div>
@@ -47,7 +49,7 @@
 			<div
 				tabindex="0"
 				role="button"
-				class="btn btn-ghost transition-all duration-200 hover:bg-base-200 btn-sm sm:btn-md text-xs sm:text-base px-2 sm:px-4"
+				class="btn px-2 text-xs btn-ghost transition-all duration-200 btn-sm hover:bg-base-200 sm:px-4 sm:text-base sm:btn-md"
 			>
 				{$detailLevel}
 				<svg
@@ -80,7 +82,7 @@
 			<div
 				tabindex="0"
 				role="button"
-				class="btn btn-ghost transition-all duration-200 hover:bg-base-200 btn-sm sm:btn-md text-xs sm:text-base px-2 sm:px-4"
+				class="btn px-2 text-xs btn-ghost transition-all duration-200 btn-sm hover:bg-base-200 sm:px-4 sm:text-base sm:btn-md"
 			>
 				Theme
 				<svg

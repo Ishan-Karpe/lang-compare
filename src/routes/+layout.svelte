@@ -3,8 +3,8 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import Header from '$lib/components/Header.svelte';
 	import Sidebar from '$lib/components/Sidebar.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 	import { theme } from '$lib/stores/uiStore';
-	import { onMount } from 'svelte';
 
 	let { children } = $props();
 
@@ -20,15 +20,18 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="drawer transition-all duration-300 max-w-full overflow-x-hidden">
+<div class="drawer max-w-full overflow-x-hidden transition-all duration-300">
 	<input id="my-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerOpen} />
-	<div class="drawer-content flex flex-col max-w-full overflow-x-hidden">
+	<div class="drawer-content flex min-h-screen max-w-full flex-col overflow-x-hidden">
 		<Header />
-		<main class="p-4 sm:p-6 lg:p-8 transition-all duration-300 max-w-screen-2xl mx-auto w-full box-border">
+		<main
+			class="mx-auto box-border w-full max-w-screen-2xl flex-grow p-4 transition-all duration-300 sm:p-6 lg:p-8"
+		>
 			{@render children?.()}
 		</main>
+		<Footer />
 	</div>
-	<div class="drawer-side transition-all duration-300 z-50">
+	<div class="drawer-side z-50 transition-all duration-300">
 		<label
 			for="my-drawer"
 			aria-label="close sidebar"

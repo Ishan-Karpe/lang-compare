@@ -17,6 +17,6 @@
 <!-- Language toggles (sticky toolbar) -->
 <LanguageToggles />
 
-<div class="container mx-auto max-w-full box-border">
+<div class="container mx-auto box-border max-w-full">
 	<ComparisonTable comparisonData={data.comparisonData} />
 </div>

@@ -1,6 +1,7 @@
 > [!NOTE] `$inspect` only works during development. In a production build it becomes a noop.
 
-The `$inspect` rune is roughly equivalent to `console.log`, with the exception that it will re-run whenever its argument changes. `$inspect` tracks reactive state deeply, meaning that updating something inside an object or array using fine-grained reactivity will cause it to re-fire 
+The `$inspect` rune is roughly equivalent to `console.log`, with the exception that it will re-run whenever its argument changes. `$inspect` tracks reactive state deeply, meaning that updating something inside an object or array using fine-grained reactivity will cause it to re-fire
+
 ```svelte
 <script>
 	let count = $state(0);
@@ -15,7 +16,7 @@ The `$inspect` rune is roughly equivalent to `console.log`, with the exception t
 
 ## $inspect(...).with
 
-`$inspect` returns a property `with`, which you can invoke with a callback, which will then be invoked instead of `console.log`. The first argument to the callback is either `"init"` or `"update"`; subsequent arguments are the values passed to `$inspect` 
+`$inspect` returns a property `with`, which you can invoke with a callback, which will then be invoked instead of `console.log`. The first argument to the callback is either `"init"` or `"update"`; subsequent arguments are the values passed to `$inspect`
 
 ```svelte
 <script>
