@@ -2,6 +2,32 @@
 	import { theme, detailLevel, type DetailLevel } from '$lib/stores/uiStore';
 	const themes = ['light', 'dark', 'black'];
 	const detailLevels: DetailLevel[] = ['simple', 'detailed', 'expert'];
+
+	// Refs for dropdown triggers to manage focus (close dropdown on mobile)
+	let detailDropdownTrigger: HTMLElement;
+	let themeDropdownTrigger: HTMLElement;
+
+	function handleDetailChange(level: DetailLevel) {
+		detailLevel.set(level);
+		// Close dropdown by removing focus (works on mobile and desktop)
+		if (detailDropdownTrigger) {
+			detailDropdownTrigger.blur();
+			if (document.activeElement instanceof HTMLElement) {
+				document.activeElement.blur();
+			}
+		}
+	}
+
+	function handleThemeChange(newTheme: string) {
+		theme.set(newTheme);
+		// Close dropdown by removing focus (works on mobile and desktop)
+		if (themeDropdownTrigger) {
+			themeDropdownTrigger.blur();
+			if (document.activeElement instanceof HTMLElement) {
+				document.activeElement.blur();
+			}
+		}
+	}
 </script>
 
 <div class="sticky top-0 z-30 navbar bg-base-100 px-2 transition-all duration-300 sm:px-4">
@@ -36,7 +62,7 @@
 				<button
 					class="btn join-item capitalize transition-all duration-200 btn-sm"
 					class:btn-active={$detailLevel === level}
-					on:click={() => detailLevel.set(level as DetailLevel)}
+					onclick={() => detailLevel.set(level as DetailLevel)}
 				>
 					{level}
 				</button>
@@ -47,6 +73,7 @@
 		<!-- Detail Level Toggle (Mobile) -->
 		<div class="dropdown dropdown-end">
 			<div
+				bind:this={detailDropdownTrigger}
 				tabindex="0"
 				role="button"
 				class="btn px-2 text-xs btn-ghost transition-all duration-200 btn-sm hover:bg-base-200 sm:px-4 sm:text-base sm:btn-md"
@@ -62,6 +89,7 @@
 				>
 			</div>
 			<ul
+				tabindex="0"
 				class="dropdown-content z-[1] w-32 rounded-box bg-base-300 p-2 shadow-2xl transition-all duration-200"
 			>
 				{#each detailLevels as level (level)}
@@ -69,7 +97,7 @@
 						<button
 							class="btn btn-block justify-start capitalize btn-ghost transition-all duration-200 btn-sm hover:bg-base-200"
 							class:btn-active={$detailLevel === level}
-							on:click={() => detailLevel.set(level as DetailLevel)}
+							onclick={() => handleDetailChange(level)}
 						>
 							{level}
 						</button>
@@ -80,6 +108,7 @@
 
 		<div class="dropdown dropdown-end">
 			<div
+				bind:this={themeDropdownTrigger}
 				tabindex="0"
 				role="button"
 				class="btn px-2 text-xs btn-ghost transition-all duration-200 btn-sm hover:bg-base-200 sm:px-4 sm:text-base sm:btn-md"
@@ -95,6 +124,7 @@
 				>
 			</div>
 			<ul
+				tabindex="0"
 				class="dropdown-content z-[1] w-52 rounded-box bg-base-300 p-2 shadow-2xl transition-all duration-200"
 			>
 				{#each themes as t (t)}
@@ -102,7 +132,7 @@
 						<button
 							class="btn btn-block justify-start btn-ghost transition-all duration-200 btn-sm hover:bg-base-200"
 							class:active={$theme === t}
-							on:click={() => theme.set(t)}
+							onclick={() => handleThemeChange(t)}
 						>
 							{t.charAt(0).toUpperCase() + t.slice(1)}
 						</button>
