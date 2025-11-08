@@ -19,10 +19,10 @@
 </script>
 
 {#if visibleSnippets.length > 0}
-	<div class="feature-section mb-12">
+	<div class="feature-section mb-12 max-w-full">
 		<h3 class="text-xl font-semibold text-base-content/90 mb-4 px-2">{feature}</h3>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-full">
 			{#each visibleSnippets as snippet}
 				<div class="code-card-wrapper">
 					<div
@@ -61,7 +61,7 @@
 							</div>
 
 							<!-- Code Content -->
-							<div class="px-5 py-4 bg-base-100 rounded-b-2xl overflow-x-auto">
+							<div class="px-3 sm:px-5 py-4 bg-base-100 rounded-b-2xl overflow-x-auto max-w-full">
 								<CodeCard {snippet} />
 							</div>
 						</div>

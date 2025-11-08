@@ -74,10 +74,10 @@
 	}
 </script>
 
-<div class="language-toolbar sticky top-16 z-10 border-b border-base-200 bg-base-100/95 backdrop-blur-sm shadow-sm">
-	<div class="container mx-auto py-3 px-4">
+<div class="language-toolbar sticky top-16 z-10 border-b border-base-200 bg-base-100/95 backdrop-blur-sm shadow-sm max-w-full overflow-hidden">
+	<div class="container mx-auto py-3 px-4 max-w-full">
 		<div
-			class="flex items-center gap-3 overflow-x-auto"
+			class="flex items-center gap-3 overflow-x-auto scrollbar-hide"
 			role="toolbar"
 			aria-label="Language selection controls"
 		>
@@ -192,6 +192,16 @@
 		transform: translateY(-2px) scale(1.05);
 	}
 
+	/* Hide scrollbar but keep functionality */
+	.scrollbar-hide {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+
+	.scrollbar-hide::-webkit-scrollbar {
+		display: none;
+	}
+
 	/* Mobile optimizations */
 	@media (max-width: 640px) {
 		.language-toolbar {
@@ -202,6 +212,7 @@
 		.language-pill {
 			min-height: 2.25rem;
 			font-size: 0.875rem;
+			flex-shrink: 0;
 		}
 	}
 </style>

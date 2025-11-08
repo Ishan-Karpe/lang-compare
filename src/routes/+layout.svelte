@@ -25,11 +25,11 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="drawer transition-all duration-300">
+<div class="drawer transition-all duration-300 max-w-full overflow-x-hidden">
 	<input id="my-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerOpen} />
-	<div class="drawer-content flex flex-col">
+	<div class="drawer-content flex flex-col max-w-full overflow-x-hidden">
 		<Header />
-		<main class="p-6 lg:p-8 transition-all duration-300 max-w-screen-2xl mx-auto w-full">
+		<main class="p-4 sm:p-6 lg:p-8 transition-all duration-300 max-w-screen-2xl mx-auto w-full box-border">
 			{@render children?.()}
 		</main>
 	</div>
