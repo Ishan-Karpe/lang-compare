@@ -39,7 +39,7 @@ npm run dev -- --open
 
 ## Tech Stack
 
-- TypeScript with Svelte framework
+- TypeScript with Svelte
 - TailwindCSS
 - DaisyUI
 
