@@ -6,6 +6,7 @@ import remarkGfm from 'remark-gfm';
 import { getHighlighter } from 'shiki';
 
 const INPUT_MD_PATH = path.resolve('data/language_comparison.md');
+const BRIDGE_NOTES_PATH = path.resolve('data/bridge_notes.md');
 const OUTPUT_JSON_PATH = path.resolve('src/lib/data/comparison-data.json');
 const LANGS_TO_HIGHLIGHT = [
 	'python',
@@ -20,6 +21,17 @@ const LANGS_TO_HIGHLIGHT = [
 	'ts',
 	'py'
 ];
+
+/**
+ * Some tables use variant column headers ("TypeScript (Node.js/Browser)",
+ * "JavaScript (Browser/Node.js)"). Canonicalize so language filtering and
+ * Bridge Mode treat them as one language.
+ */
+function canonicalizeLanguageName(langName) {
+	if (langName.startsWith('TypeScript')) return 'TypeScript';
+	if (langName.startsWith('JavaScript')) return 'JavaScript (ES6+)';
+	return langName;
+}
 
 function normalizeLanguageToShikiId(langName) {
 	const lower = langName.toLowerCase();
@@ -37,9 +49,10 @@ function normalizeLanguageToShikiId(langName) {
 function processSnippetCell(cellNode, highlighter, langId) {
 	let detailLevel = 'simple';
 	let contentHtml = '';
+	let contentRaw = '';
 
 	if (!cellNode || !cellNode.children || cellNode.children.length === 0) {
-		return { detailLevel, contentHtml: '' };
+		return { detailLevel, contentHtml: '', contentRaw: '' };
 	}
 
 	// Process each child node
@@ -57,6 +70,7 @@ function processSnippetCell(cellNode, highlighter, langId) {
 				theme: 'github-dark'
 			});
 			contentHtml += highlightedHtml;
+			contentRaw += (node.value || '') + '\n';
 		} else if (node.type === 'inlineCode') {
 			// Apply syntax highlighting to inline code
 			const highlightedHtml = highlighter.codeToHtml(node.value || '', {
@@ -64,6 +78,7 @@ function processSnippetCell(cellNode, highlighter, langId) {
 				theme: 'github-dark'
 			});
 			contentHtml += highlightedHtml;
+			contentRaw += (node.value || '') + '\n';
 		} else if (node.type === 'text') {
 			// Add plain text
 			contentHtml += node.value || '';
@@ -83,7 +98,47 @@ function processSnippetCell(cellNode, highlighter, langId) {
 		// Skip other node types for now
 	}
 
-	return { detailLevel, contentHtml };
+	return { detailLevel, contentHtml, contentRaw: contentRaw.trimEnd() };
+}
+
+/**
+ * Parse data/bridge_notes.md into { "<feature>": { "<from>-><to>": "note" } }.
+ * Format: "## <Feature>" sections containing "### <From> -> <To>" subsections
+ * whose body text is the note.
+ */
+async function parseBridgeNotes() {
+	let raw;
+	try {
+		raw = await fs.readFile(BRIDGE_NOTES_PATH, 'utf-8');
+	} catch {
+		return {}; // file is optional
+	}
+
+	const notes = {};
+	let feature = null;
+	let pairKey = null;
+
+	for (const line of raw.split('\n')) {
+		const featureMatch = line.match(/^##\s+(?!#)(.+)$/);
+		const pairMatch = line.match(/^###\s+(.+?)\s*->\s*(.+)$/);
+
+		if (pairMatch && feature) {
+			pairKey = `${pairMatch[1].trim()}->${pairMatch[2].trim()}`;
+			notes[feature][pairKey] = '';
+		} else if (featureMatch && !line.startsWith('###')) {
+			feature = featureMatch[1].trim();
+			notes[feature] = notes[feature] || {};
+			pairKey = null;
+		} else if (pairKey && feature && line.trim()) {
+			notes[feature][pairKey] = (notes[feature][pairKey] + ' ' + line.trim()).trim();
+		}
+	}
+
+	// Drop features that ended up with no pairs
+	for (const key of Object.keys(notes)) {
+		if (Object.keys(notes[key]).length === 0) delete notes[key];
+	}
+	return notes;
 }
 
 (async () => {
@@ -95,6 +150,7 @@ function processSnippetCell(cellNode, highlighter, langId) {
 			langs: LANGS_TO_HIGHLIGHT
 		});
 
+		const bridgeNotesByFeature = await parseBridgeNotes();
 		const markdown = await fs.readFile(INPUT_MD_PATH, 'utf-8');
 		const tree = unified().use(remarkParse).use(remarkGfm).parse(markdown);
 
@@ -161,7 +217,8 @@ function processSnippetCell(cellNode, highlighter, langId) {
 						}
 						return '';
 					})
-					.filter(Boolean);
+					.filter(Boolean)
+					.map(canonicalizeLanguageName);
 				console.log('Languages found:', languages);
 
 				const bodyRows = node.children.slice(1);
@@ -179,12 +236,17 @@ function processSnippetCell(cellNode, highlighter, langId) {
 						if (!langName) return;
 
 						const shikiLangId = normalizeLanguageToShikiId(langName);
-						const { detailLevel, contentHtml } = processSnippetCell(cell, highlighter, shikiLangId);
+						const { detailLevel, contentHtml, contentRaw } = processSnippetCell(
+							cell,
+							highlighter,
+							shikiLangId
+						);
 
 						snippets.push({
 							language: langName,
 							detailLevel: detailLevel,
-							contentHtml: contentHtml
+							contentHtml: contentHtml,
+							contentRaw: contentRaw
 						});
 					});
 
@@ -193,7 +255,8 @@ function processSnippetCell(cellNode, highlighter, langId) {
 							category: currentCategory,
 							categoryDetailLevel: categoryDetailLevels.get(currentCategory) || 'simple',
 							feature,
-							snippets
+							snippets,
+							bridgeNotes: bridgeNotesByFeature[feature] || {}
 						});
 					}
 				}

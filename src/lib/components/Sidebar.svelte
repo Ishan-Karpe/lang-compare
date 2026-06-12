@@ -2,7 +2,7 @@
 	// This would normally come from the page data
 	// For now, we'll extract it from the JSON file
 	import comparisonData from '$lib/data/comparison-data.json';
-	import slugify from '$lib/utils/slugify';
+	import { slugify } from '$lib/utils/slugify';
 	import { detailLevel } from '$lib/stores/uiStore';
 	import { SvelteMap } from 'svelte/reactivity';
 

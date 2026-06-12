@@ -1,11 +1,34 @@
 <script lang="ts">
-	import { theme, detailLevel, type DetailLevel } from '$lib/stores/uiStore';
+	import { theme, detailLevel, homeLanguage, type DetailLevel } from '$lib/stores/uiStore';
+	import comparisonData from '$lib/data/comparison-data.json';
 	const themes = ['light', 'dark', 'black'];
 	const detailLevels: DetailLevel[] = ['simple', 'detailed', 'expert'];
+
+	// All languages in first-seen order (same derivation as LanguageToggles)
+	const allLanguages: string[] = (() => {
+		const list: string[] = [];
+		for (const row of comparisonData.rows as Array<{ snippets: Array<{ language: string }> }>) {
+			for (const s of row.snippets) {
+				if (!list.includes(s.language)) list.push(s.language);
+			}
+		}
+		return list;
+	})();
 
 	// Refs for dropdown triggers to manage focus (close dropdown on mobile)
 	let detailDropdownTrigger: HTMLElement;
 	let themeDropdownTrigger: HTMLElement;
+	let bridgeDropdownTrigger: HTMLElement;
+
+	function handleHomeLanguageChange(lang: string | null) {
+		homeLanguage.set(lang);
+		if (bridgeDropdownTrigger) {
+			bridgeDropdownTrigger.blur();
+			if (document.activeElement instanceof HTMLElement) {
+				document.activeElement.blur();
+			}
+		}
+	}
 
 	function handleDetailChange(level: DetailLevel) {
 		detailLevel.set(level);
@@ -70,6 +93,52 @@
 		</div>
 	</div>
 	<div class="navbar-end gap-1 sm:gap-2">
+		<!-- Bridge Mode: home language selector -->
+		<div class="dropdown dropdown-end">
+			<div
+				bind:this={bridgeDropdownTrigger}
+				tabindex="0"
+				role="button"
+				class="btn px-2 text-xs btn-ghost transition-all duration-200 btn-sm hover:bg-base-200 sm:px-4 sm:text-base sm:btn-md"
+				class:text-primary={$homeLanguage}
+			>
+				{$homeLanguage ? `I know ${$homeLanguage}` : 'I know…'}
+				<svg
+					width="12px"
+					height="12px"
+					class="inline-block h-2 w-2 fill-current opacity-60 transition-transform duration-200"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 2048 2048"
+					><path d="M1799 349l242 241-1017 1017L7 590l242-241 775 775 775-775z"></path></svg
+				>
+			</div>
+			<ul
+				tabindex="0"
+				class="dropdown-content z-[1] w-56 rounded-box bg-base-300 p-2 shadow-2xl transition-all duration-200"
+			>
+				<li>
+					<button
+						class="btn btn-block justify-start btn-ghost transition-all duration-200 btn-sm hover:bg-base-200"
+						class:btn-active={$homeLanguage === null}
+						onclick={() => handleHomeLanguageChange(null)}
+					>
+						Off
+					</button>
+				</li>
+				{#each allLanguages as lang (lang)}
+					<li>
+						<button
+							class="btn btn-block justify-start btn-ghost transition-all duration-200 btn-sm hover:bg-base-200"
+							class:btn-active={$homeLanguage === lang}
+							onclick={() => handleHomeLanguageChange(lang)}
+						>
+							{lang}
+						</button>
+					</li>
+				{/each}
+			</ul>
+		</div>
+
 		<!-- Detail Level Toggle (Mobile) -->
 		<div class="dropdown dropdown-end">
 			<div

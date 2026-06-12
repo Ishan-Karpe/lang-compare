@@ -3,7 +3,7 @@ import { pushState } from '$app/navigation';
 /**
  * Smooth scroll to element with offset for fixed headers
  */
-export function smoothScrollToElement(elementId: string, offset = 100) {
+function smoothScrollToElement(elementId: string, offset = 100) {
 	const element = document.getElementById(elementId);
 	if (!element) return;
 

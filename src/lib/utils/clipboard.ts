@@ -1,7 +1,7 @@
 /**
  * Copy text to clipboard with feedback
  */
-export async function copyToClipboard(text: string): Promise<boolean> {
+async function copyToClipboard(text: string): Promise<boolean> {
 	try {
 		await navigator.clipboard.writeText(text);
 		return true;
@@ -40,7 +40,7 @@ function fallbackCopyTextToClipboard(text: string): boolean {
 /**
  * Extract plain text from HTML string
  */
-export function stripHtmlTags(html: string): string {
+function stripHtmlTags(html: string): string {
 	const tmp = document.createElement('div');
 	tmp.innerHTML = html;
 	return tmp.textContent || tmp.innerText || '';

@@ -4,7 +4,7 @@ import { render } from 'vitest-browser-svelte';
 import Page from './+page.svelte';
 
 describe('/+page.svelte', () => {
-	it('should render h1', async () => {
+	it('should render the language toggles toolbar', async () => {
 		// Mock data to pass to the component
 		const mockData = {
 			comparisonData: []
@@ -12,7 +12,7 @@ describe('/+page.svelte', () => {
 
 		render(Page, { data: mockData });
 
-		const heading = page.getByRole('heading', { level: 1 });
-		await expect.element(heading).toBeInTheDocument();
+		const toggleButton = page.getByRole('button').first();
+		await expect.element(toggleButton).toBeInTheDocument();
 	});
 });

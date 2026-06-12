@@ -1,15 +1,8 @@
 <script lang="ts">
-	import type { Snippet } from '$lib/types';
+	import type { ComparisonRow } from '$lib/types';
 	import CategoryHeader from './CategoryHeader.svelte';
 	import FeatureCard from './FeatureCard.svelte';
 	import { detailLevel, visibleLanguages } from '$lib/stores/uiStore';
-
-	interface ComparisonRow {
-		category: string;
-		categoryDetailLevel: 'simple' | 'detailed' | 'expert';
-		feature: string;
-		snippets: Snippet[];
-	}
 
 	// accept comparison data as a prop
 	let { comparisonData = [] }: { comparisonData: ComparisonRow[] } = $props();
@@ -87,7 +80,12 @@
 
 		<div class="space-y-8">
 			{#each rows as row (row.feature)}
-				<FeatureCard feature={row.feature} snippets={row.snippets} visibleLanguages={activeLangs} />
+				<FeatureCard
+					feature={row.feature}
+					snippets={row.snippets}
+					bridgeNotes={row.bridgeNotes || {}}
+					visibleLanguages={activeLangs}
+				/>
 			{/each}
 		</div>
 	</section>

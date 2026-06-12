@@ -12,5 +12,3 @@ export function slugify(input: string): string {
 		.replace(/\s+/g, '-') // spaces -> hyphens
 		.replace(/-+/g, '-'); // collapse multiple hyphens
 }
-
-export default slugify;

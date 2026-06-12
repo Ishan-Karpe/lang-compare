@@ -1,5 +1,5 @@
 import { persisted } from 'svelte-persisted-store';
-import { writable, get } from 'svelte/store';
+import { writable } from 'svelte/store';
 
 export const theme = persisted('theme', 'dark');
 
@@ -13,6 +13,25 @@ export const detailLevel = writable<DetailLevel>('simple');
  * initialize it to the full language list on first use.
  */
 export const visibleLanguages = persisted<string[]>('visibleLanguages', []);
+
+/**
+ * Bridge Mode: the language the user already knows. null = Bridge Mode off.
+ * When set, the home language is pinned first in every feature card and other
+ * languages get similarity badges relative to it.
+ */
+export const homeLanguage = persisted<string | null>('homeLanguage', null);
+
+/**
+ * Cheatsheet Builder: feature slugs the user has selected for their cheatsheet.
+ * Session-only by design — a cheatsheet is a throwaway artifact.
+ */
+export const selectedFeatures = writable<string[]>([]);
+
+export function toggleFeature(slug: string) {
+	selectedFeatures.update((arr) =>
+		arr.includes(slug) ? arr.filter((s) => s !== slug) : [...arr, slug]
+	);
+}
 
 /**
  * Helper operations for visibleLanguages store
@@ -36,13 +55,4 @@ export function toggleLanguage(lang: string) {
 
 export function setLanguages(list: string[]) {
 	visibleLanguages.set(list);
-}
-
-export function clearLanguages() {
-	visibleLanguages.set([]);
-}
-
-export function isLanguageVisible(lang: string) {
-	const arr = get(visibleLanguages) || [];
-	return arr.length === 0 ? true : arr.includes(lang);
 }
