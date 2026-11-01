@@ -1,6 +1,11 @@
 <script lang="ts">
 	import comparisonData from '$lib/data/comparison-data.json';
-	import { visibleLanguages, toggleLanguage, setLanguages } from '$lib/stores/uiStore';
+	import {
+		homeLanguage,
+		visibleLanguages,
+		toggleLanguage,
+		setLanguages
+	} from '$lib/stores/uiStore';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
@@ -18,14 +23,16 @@
 	})();
 
 	// Default languages to show when first launching the site
-	const defaultLanguages = ['Java (LTS)', 'Python 3.12'];
+	const defaultLanguages = ['Rust', 'Python 3.12'];
 
 	// Count snippets per language for display
 	const languageCounts: Record<string, number> = (() => {
 		const counts: Record<string, number> = {};
-		for (const row of comparisonData.rows as Array<{ snippets: Array<{ language: string }> }>) {
-			for (const s of row.snippets as Array<{ language: string }>) {
-				counts[s.language] = (counts[s.language] || 0) + 1;
+		for (const row of comparisonData.rows as Array<{
+			snippets: Array<{ language: string; contentHtml: string }>;
+		}>) {
+			for (const s of row.snippets) {
+				if (s.contentHtml) counts[s.language] = (counts[s.language] || 0) + 1;
 			}
 		}
 		return counts;
@@ -65,14 +72,12 @@
 	}
 
 	// Check if all languages are selected
-	function areAllSelected(): boolean {
-		const cur = get(visibleLanguages) || [];
-		return cur.length === allLanguages.length;
-	}
+	$: allSelected = ($visibleLanguages || []).length === allLanguages.length;
 </script>
 
 <div
-	class="language-toolbar sticky top-16 z-10 max-w-full overflow-hidden border-b border-base-200 bg-base-100/95 shadow-sm backdrop-blur-sm"
+	class:sticky={!$homeLanguage}
+	class="language-toolbar top-16 z-10 max-w-full overflow-hidden border-b border-base-200 bg-base-100/95 shadow-sm backdrop-blur-sm"
 >
 	<div class="container mx-auto max-w-full px-4 py-3">
 		<div
@@ -85,11 +90,11 @@
 				<span class="hidden text-sm font-medium text-base-content/70 sm:inline">Quick:</span>
 				<button
 					class="btn gap-1 transition-all duration-200 btn-sm"
-					class:btn-primary={areAllSelected()}
-					class:btn-outline={!areAllSelected()}
+					class:btn-primary={allSelected}
+					class:btn-outline={!allSelected}
 					on:click={toggleAll}
-					aria-label={areAllSelected() ? 'Deselect all languages' : 'Select all languages'}
-					title={areAllSelected() ? 'Click to show Python only' : 'Click to show all languages'}
+					aria-label={allSelected ? 'Deselect all languages' : 'Select all languages'}
+					title={allSelected ? 'Click to show Python only' : 'Click to show all languages'}
 				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"

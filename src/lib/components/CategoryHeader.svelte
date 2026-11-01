@@ -8,19 +8,26 @@
 
 	// Icon mapping for categories
 	const categoryIcons: Record<string, string> = {
-		'Data Structures': '📊',
+		'Getting Started: Build, Run & Output': '🚀',
+		'Language Core & Typing': '🏷️',
 		'Control Flow': '🔀',
-		Functions: '⚡',
-		'Object-Oriented Programming': '🎯',
-		'Error Handling': '🛡️',
-		'Concurrency & Async': '🔄',
-		'File I/O': '📁',
-		Networking: '🌐',
-		Testing: '🧪',
+		'Common Data Structures': '📊',
+		'String Handling': '🔤',
+		'Functions & Classes': '🎯',
+		'Errors & Files': '🛡️',
+		'Ownership & Borrowing': '🔑',
+		'Modules, Crates & Tests': '📦',
+		'Functional Programming & Closures': '⚡',
+		'Expressive Data Operations': '✨',
+		'Generics & Templates': '🧩',
+		'System Interaction & Tooling': '🛠️',
+		'Testing Frameworks & Ecosystem': '🧪',
+		'Standard Library Capabilities': '📚',
+		'Performance Profile (Conceptual)': '📈',
+		'Typical Use Cases & Ecosystem': '🌐',
+		'Asynchronous Programming & Concurrency Models': '🔄',
 		Metaprogramming: '🔮',
-		'Standard Library': '📚',
-		'Memory Management': '💾',
-		'Type System': '🏷️'
+		'Interoperability (FFI)': '🔌'
 	};
 
 	const icon = categoryIcons[category] || '📌';

@@ -5,5 +5,12 @@ yarn.lock
 bun.lock
 bun.lockb
 
+# Generated data
+/src/lib/data/comparison-data.json
+/data/snippet_outputs.json
+
+# Local tool settings
+/.claude/
+
 # Miscellaneous
 /static/

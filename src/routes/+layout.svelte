@@ -20,9 +20,9 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="drawer max-w-full overflow-x-hidden transition-all duration-300">
+<div class="drawer max-w-full overflow-x-clip transition-all duration-300">
 	<input id="my-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawerOpen} />
-	<div class="drawer-content flex min-h-screen max-w-full flex-col overflow-x-hidden">
+	<div class="drawer-content flex min-h-screen max-w-full flex-col overflow-x-clip">
 		<Header />
 		<main
 			class="mx-auto box-border w-full max-w-screen-2xl flex-grow p-4 transition-all duration-300 sm:p-6 lg:p-8"

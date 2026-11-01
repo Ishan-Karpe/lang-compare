@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { theme, detailLevel, homeLanguage, type DetailLevel } from '$lib/stores/uiStore';
+	import {
+		changeHomeLanguage,
+		theme,
+		detailLevel,
+		homeLanguage,
+		type DetailLevel
+	} from '$lib/stores/uiStore';
 	import comparisonData from '$lib/data/comparison-data.json';
 	const themes = ['light', 'dark', 'black'];
 	const detailLevels: DetailLevel[] = ['simple', 'detailed', 'expert'];
@@ -21,7 +27,11 @@
 	let bridgeDropdownTrigger: HTMLElement;
 
 	function handleHomeLanguageChange(lang: string | null) {
-		homeLanguage.set(lang);
+		if (lang) {
+			changeHomeLanguage(lang);
+		} else {
+			homeLanguage.set(null);
+		}
 		if (bridgeDropdownTrigger) {
 			bridgeDropdownTrigger.blur();
 			if (document.activeElement instanceof HTMLElement) {
@@ -53,7 +63,9 @@
 	}
 </script>
 
-<div class="sticky top-0 z-30 navbar bg-base-100 px-2 transition-all duration-300 sm:px-4">
+<div
+	class="sticky top-0 z-30 navbar bg-base-100 px-2 transition-all duration-300 sm:px-4 print:hidden"
+>
 	<div class="navbar-start gap-1 sm:gap-2">
 		<label
 			for="my-drawer"
