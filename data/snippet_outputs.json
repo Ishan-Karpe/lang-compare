@@ -1,0 +1,498 @@
+{
+	"Stdout|Python 3.12": {
+		"hash": "f02f4e3d6fb882823b798a3bb1e4336af20d9562",
+		"output": "Hello"
+	},
+	"Stdout|Java (LTS)": {
+		"hash": "e617c3dddb6b39c076a3123766d82956796a0194",
+		"output": "Hello"
+	},
+	"Stdout|Rust": {
+		"hash": "dbbb2e6e3b8f89580258784aabf798cbbd6db69b",
+		"output": "Hello"
+	},
+	"Stderr|Python 3.12": {
+		"hash": "86d698842229a7e68f69ca21b043abcc16d9e4a5",
+		"output": ""
+	},
+	"Stderr|Java (LTS)": {
+		"hash": "87c26de0534ee2114a1053d7ee67998faff44585",
+		"output": ""
+	},
+	"Stderr|Rust": {
+		"hash": "ce161c0108262b0018d9fbb7eb6bbfc0499b9073",
+		"output": ""
+	},
+	"CLI Arguments|Python 3.12": {
+		"hash": "0766313853750cfff10e48f304de7691bb7f9547",
+		"output": "0"
+	},
+	"CLI Arguments|Java (LTS)": {
+		"hash": "760e03f5b9552095c95a44294cb79517c3bb3e75",
+		"output": "0"
+	},
+	"CLI Arguments|Rust": {
+		"hash": "342f476c9193e045c103519cd3b1057f097a7c48",
+		"output": "0"
+	},
+	"Variable Declaration (Mutable/Immutable)|Python 3.12": {
+		"hash": "62ed8f564e36016c3c275700a3d6d53cf544525a",
+		"output": "16"
+	},
+	"Variable Declaration (Mutable/Immutable)|Java (LTS)": {
+		"hash": "5cf6042e9207d7b6d0da7ee1aa067a9545972cce",
+		"output": "16"
+	},
+	"Variable Declaration (Mutable/Immutable)|Rust": {
+		"hash": "5bd3c23e5be662fa9ff978ceca47cfcb16e72757",
+		"output": "16"
+	},
+	"Primitive Data Types|Python 3.12": {
+		"hash": "e3ab17102126830032462f9d2289ccffb2b742b8",
+		"output": "2147483648\nTrue 3.5 3"
+	},
+	"Primitive Data Types|Java (LTS)": {
+		"hash": "37addebefe2eaa97b9b822c6b3a3ed99dd3db8f3",
+		"output": "-2147483648\ntrue 3.5 3"
+	},
+	"Primitive Data Types|Rust": {
+		"hash": "779ded4cd750d500b09e81fb06fa90d795cab1c9",
+		"output": "2147483648\ntrue 3.5 3"
+	},
+	"Null Safety / Optional Types|Python 3.12": {
+		"hash": "30fdf9ab62453be377fefbe60af9b8da3b1750f0",
+		"output": "unknown"
+	},
+	"Null Safety / Optional Types|Java (LTS)": {
+		"hash": "cd728da76ecdf413648b1f66cab13704f48ac507",
+		"output": "unknown"
+	},
+	"Null Safety / Optional Types|Rust": {
+		"hash": "3cc3ed2dcd5f7bb7274ea9b922844afd28e05eb1",
+		"output": "unknown"
+	},
+	"Aggregate Data Types (Structs/Objects)|Python 3.12": {
+		"hash": "ddfa3f16792aec4bfa29dbbadb1e5ab570673bae",
+		"output": "Point(x=1, y=2)"
+	},
+	"Aggregate Data Types (Structs/Objects)|Java (LTS)": {
+		"hash": "ccb7065be20a4359b7ae1c975347af30e5282e79",
+		"output": "Point[x=1, y=2]"
+	},
+	"Aggregate Data Types (Structs/Objects)|Rust": {
+		"hash": "1404358fd4d73d5a0ae0466ae53e03c6ec470bd0",
+		"output": "Point { x: 1, y: 2 }"
+	},
+	"If/Else|Python 3.12": {
+		"hash": "578e17a1d657874a80d398b8fbf3b89a34d83a13",
+		"output": "Pos"
+	},
+	"If/Else|Java (LTS)": {
+		"hash": "52a906a2e426133589f1e049697d7457c8e2dab6",
+		"output": "Pos"
+	},
+	"If/Else|Rust": {
+		"hash": "a35b611367a238c35a5e75967e14aee19d25a5b8",
+		"output": "Pos"
+	},
+	"Loop (for)|Python 3.12": {
+		"hash": "289c968469b5c22983fe0753194e6ed6019b8a88",
+		"output": "0\n1\na\nb"
+	},
+	"Loop (for)|Java (LTS)": {
+		"hash": "2101dfecc42deb9c5deeafe7bf676cedd6ac826a",
+		"output": "0\n1\na\nb"
+	},
+	"Loop (for)|Rust": {
+		"hash": "d2f209576670d68b50f12958d307cf6d72a1c8f8",
+		"output": "0\n1\na\nb"
+	},
+	"Switch / Match|Python 3.12": {
+		"hash": "f034e2ca10b76113d6e288bcfa72a3793b8d9c5b",
+		"output": "One"
+	},
+	"Switch / Match|Java (LTS)": {
+		"hash": "033c19da2e23f36cf4446513b2e37f82d0508d6f",
+		"output": "One"
+	},
+	"Switch / Match|Rust": {
+		"hash": "1ab22d62afcab12282faaeaab34d056bf8fd1f12",
+		"output": "One"
+	},
+	"Dynamic Array/List|Python 3.12": {
+		"hash": "05612cde99168faf36db42b9e0779fa3aa963405",
+		"output": "[1, 2] 2 1"
+	},
+	"Dynamic Array/List|Java (LTS)": {
+		"hash": "3cbfffa808d3f329d7fb2dfc681ae345d4aec8c9",
+		"output": "[1, 2] 2 1"
+	},
+	"Dynamic Array/List|Rust": {
+		"hash": "fb634d46ae111593ea364c602fe0d15232f961a1",
+		"output": "[1, 2] 2 1"
+	},
+	"Fixed-Size Array|Python 3.12": {
+		"hash": "7400c39dbd7ef5cc5c2b72fcb7d3a81d79a029ce",
+		"output": "[7, 0, 0]"
+	},
+	"Fixed-Size Array|Java (LTS)": {
+		"hash": "3ea96cd15f4d854d3eab9578b41e9790eb28d4c3",
+		"output": "[7, 0, 0]"
+	},
+	"Fixed-Size Array|Rust": {
+		"hash": "f9e59069d2bbe64a6179438eb0bc4a5fe0c152f2",
+		"output": "[7, 0, 0]"
+	},
+	"Dictionary/HashMap|Python 3.12": {
+		"hash": "bfa60cbdec714908bf343ad137c0faa2a410bf97",
+		"output": "1 0 2"
+	},
+	"Dictionary/HashMap|Java (LTS)": {
+		"hash": "4e2361f75a86aea87ebe024f7d97bab16831d2ed",
+		"output": "1 0 2"
+	},
+	"Dictionary/HashMap|Rust": {
+		"hash": "e108eb14d7f9f5d33568682132ab982469f39e00",
+		"output": "1 0 2"
+	},
+	"Set|Python 3.12": {
+		"hash": "4fe356a52a31084984399c539a577c89895f597f",
+		"output": "2 True"
+	},
+	"Set|Java (LTS)": {
+		"hash": "d11c18d54c20beb30ce0f6e229772fbe6d749427",
+		"output": "2 true"
+	},
+	"Set|Rust": {
+		"hash": "b7ccac08c29f0d9f52608093d529c47adfa46a7c",
+		"output": "2 true"
+	},
+	"Tuple/Immutable Sequence (Fixed-size, Heterogeneous)|Python 3.12": {
+		"hash": "0255b8255e09f720c81e3e9891a447160bb3672f",
+		"output": "1 hello True"
+	},
+	"Tuple/Immutable Sequence (Fixed-size, Heterogeneous)|Java (LTS)": {
+		"hash": "387074603be6c5c73cbfdf2ef76f86d42ade5640",
+		"output": "1 hello true"
+	},
+	"Tuple/Immutable Sequence (Fixed-size, Heterogeneous)|Rust": {
+		"hash": "96168b30c8291d2aeaf40e56f9d74656039691f9",
+		"output": "1 hello true"
+	},
+	"Literal/Stack/Static Creation|Python 3.12": {
+		"hash": "baa4ac81fce3c9226790b1eba65afaa81656da37",
+		"output": "True"
+	},
+	"Literal/Stack/Static Creation|Java (LTS)": {
+		"hash": "c08e54df098fb92f60f9d3928acd08bf4c04a6a7",
+		"output": "true"
+	},
+	"Literal/Stack/Static Creation|Rust": {
+		"hash": "bb327aeb73f1311a8f4c85e4426fedb01436cc68",
+		"output": "true"
+	},
+	"Heap-based Creation|Python 3.12": {
+		"hash": "e63fb3bce73bcd090a98ee250090e1ad2ea58ab7",
+		"output": "dynamic"
+	},
+	"Heap-based Creation|Java (LTS)": {
+		"hash": "310f6ae70e5e058af42da1dc1f704065da14f31b",
+		"output": "dynamic"
+	},
+	"Heap-based Creation|Rust": {
+		"hash": "9550887f9c0badca199859223554c683df54cc06",
+		"output": "dynamic"
+	},
+	"Length|Python 3.12": {
+		"hash": "dbb4ca3dbd05415d5e5704dab210efaa707f46e8",
+		"output": "5"
+	},
+	"Length|Java (LTS)": {
+		"hash": "9d2fa7c26dc6a361709d52fbee527ef5cf60a341",
+		"output": "5"
+	},
+	"Length|Rust": {
+		"hash": "fac232474e7ed06b6af23948d02cea7a21a9a033",
+		"output": "5"
+	},
+	"Concatenation|Python 3.12": {
+		"hash": "4891e0323b484d6d2b3f9834a775a64314bbf478",
+		"output": "Hi Ada, 2"
+	},
+	"Concatenation|Java (LTS)": {
+		"hash": "2c37158264c79f29a1df7cf3e111cadff44d0ca0",
+		"output": "Hi Ada, 2"
+	},
+	"Concatenation|Rust": {
+		"hash": "8ca92c33486322b0f2b4fb3b6d5f59f1992bdd63",
+		"output": "Hi Ada, 2"
+	},
+	"Substring/Slicing|Python 3.12": {
+		"hash": "0c5e854dbc52939ef20c7d48b5894d11617f8a60",
+		"output": "el h o"
+	},
+	"Substring/Slicing|Java (LTS)": {
+		"hash": "68185879759dffcaaf7e8096b895644dad9a7da3",
+		"output": "el h o"
+	},
+	"Substring/Slicing|Rust": {
+		"hash": "c30fbb1570cf0d4edca210ca21ea8f9419016025",
+		"output": "el h o"
+	},
+	"Function Definition|Python 3.12": {
+		"hash": "e2809d81c4728464a9c3be41ea421417c599918a",
+		"output": "Hi Ada!"
+	},
+	"Function Definition|Java (LTS)": {
+		"hash": "c410e226978aef5f5e80dc344b3e44e446ed9622",
+		"output": "Hi Ada!"
+	},
+	"Function Definition|Rust": {
+		"hash": "46e9f878d6b9687fe34e0c0e21b352ffd83a3162",
+		"output": "Hi Ada!"
+	},
+	"OOP: Class/Struct|Python 3.12": {
+		"hash": "eece73cbb1f099f92d991a96d6523e6453607697",
+		"output": "Hi Ada"
+	},
+	"OOP: Class/Struct|Java (LTS)": {
+		"hash": "cd5eec7b8cea29c84355c527897feeb9d122d34e",
+		"output": "Hi Ada"
+	},
+	"OOP: Class/Struct|Rust": {
+		"hash": "e2028d8a550e7d4fe313d54df02f14ca7ba81cbe",
+		"output": "Hi Ada"
+	},
+	"OOP: Inheritance|Python 3.12": {
+		"hash": "a4b5dc5baa13dc212555c4b5af34de28a8e5b7b0",
+		"output": "animal"
+	},
+	"OOP: Inheritance|Java (LTS)": {
+		"hash": "0004caa297c6071763f0dc3ba8582a5aedaaae73",
+		"output": "animal"
+	},
+	"OOP: Inheritance|Rust": {
+		"hash": "ed8385613608a5be1cedc35c83a1623b3265d1f0",
+		"output": "animal"
+	},
+	"OOP: Polymorphism (Method Overriding)|Python 3.12": {
+		"hash": "63d531670a9e00a6e539e63de4ce38182faa8e02",
+		"output": "B"
+	},
+	"OOP: Polymorphism (Method Overriding)|Java (LTS)": {
+		"hash": "b7d8d93b42ee56c3354e5f7927cdcdaae7075af4",
+		"output": "B"
+	},
+	"OOP: Polymorphism (Method Overriding)|Rust": {
+		"hash": "b44994364f0ce9d1fd8f546c95df7dcd5ae51f68",
+		"output": "B"
+	},
+	"Enums and Pattern Matching|Python 3.12": {
+		"hash": "5b3e254598e46b67f9581b14b4acbde73e0dd62b",
+		"output": "9"
+	},
+	"Enums and Pattern Matching|Rust": {
+		"hash": "ccc2fe731d007047914c38483c927860cd50fec7",
+		"output": "9"
+	},
+	"Ownership and Moves|Python 3.12": {
+		"hash": "d71d2bd10b1a882257e5152d3283816e1faabe3d",
+		"output": "[1, 2] [1, 2]"
+	},
+	"Ownership and Moves|Rust": {
+		"hash": "f23b67473d7568553458c3c58846533270cf4b03",
+		"output": "[1, 2] [1, 2]"
+	},
+	"Borrowing and References|Python 3.12": {
+		"hash": "61f5831c318acefe3c55c1b63e2a7aac37f38a94",
+		"output": "3 [1, 2]"
+	},
+	"Borrowing and References|Rust": {
+		"hash": "4735c81827337d58b4eb4be6e739029db0f2478b",
+		"output": "3 [1, 2]"
+	},
+	"Mutable References|Python 3.12": {
+		"hash": "e25363a68738b70b841c0cb0a9366e9db70514bd",
+		"output": "[1]"
+	},
+	"Mutable References|Rust": {
+		"hash": "335278383a46dfd783557b096d5b39a6947344d7",
+		"output": "[1]"
+	},
+	"Slices|Python 3.12": {
+		"hash": "d4b9c053089883e1600794a9f08fd89a45eac92b",
+		"output": "[2, 3] 5"
+	},
+	"Slices|Rust": {
+		"hash": "d68c5347d34c6ddc6357b5dfeecc407ffc8112a0",
+		"output": "[2, 3] 5"
+	},
+	"Error Handling (Primary)|Python 3.12": {
+		"hash": "95ad10b8d638580fdf08404c4ccdf0ca908ac00c",
+		"output": "caught\ndone"
+	},
+	"Error Handling (Primary)|Java (LTS)": {
+		"hash": "980082f315175b819038c7bf0957bba202ad196f",
+		"output": "caught\ndone"
+	},
+	"Error Handling (Primary)|Rust": {
+		"hash": "7eeafb76d653ce92f12bbb6806bb7eebea59b3cd",
+		"output": "caught\ndone"
+	},
+	"The ? Operator|Python 3.12": {
+		"hash": "cb0cf58e3eb16076a124059306a181f44aeb75e6",
+		"output": "8"
+	},
+	"The ? Operator|Rust": {
+		"hash": "d11bfe58f258442c362486c12dbde8b51fcabeaa",
+		"output": "8"
+	},
+	"File I/O: Write|Python 3.12": {
+		"hash": "72ae7fc109e1d8198c471db4319974e56243c108",
+		"output": "saved"
+	},
+	"File I/O: Write|Java (LTS)": {
+		"hash": "abe7e8d724517566cda24ca871919a86310e1bb1",
+		"output": "saved"
+	},
+	"File I/O: Write|Rust": {
+		"hash": "8b6e892baa8e8036f36b76caae6d8dc75793436b",
+		"output": "saved"
+	},
+	"File I/O: Read|Python 3.12": {
+		"hash": "a2ae212a3c1dcd2ddb6d8b725a65241641adb11b",
+		"output": "hi"
+	},
+	"File I/O: Read|Java (LTS)": {
+		"hash": "45be8c76a37fcd9288d197a2cf42cae49c211df9",
+		"output": "hi"
+	},
+	"File I/O: Read|Rust": {
+		"hash": "07826057861386a034e70a6feff28eaf3795abd3",
+		"output": "hi"
+	},
+	"Stdin|Python 3.12": {
+		"hash": "7209a292671d329e003cd162e6baaf18d1064fee",
+		"output": "Enter: Ada"
+	},
+	"Stdin|Java (LTS)": {
+		"hash": "dc0ef10b48524f15b03f2d5d1b7eb5b9822f7cdc",
+		"output": "Enter: Ada"
+	},
+	"Stdin|Rust": {
+		"hash": "387d03dd1d4c005dd26f2a9b03ac793bdb246c2d",
+		"output": "Enter: Ada"
+	},
+	"Modules and pub|Python 3.12": {
+		"hash": "847b0d2b035d1fe5a4aa50c9e82b20fa272585ae",
+		"output": "8"
+	},
+	"Modules and pub|Rust": {
+		"hash": "65fe26a44f6cf3e7b4f3925c81e14fdb7afaa071",
+		"output": "8"
+	},
+	"Closures (Lexical Scope Capture)|Python 3.12": {
+		"hash": "2e4b491bdb0e22fe2c21429f74acb185ae982975",
+		"output": "2"
+	},
+	"Closures (Lexical Scope Capture)|Java (LTS)": {
+		"hash": "75fb32b1d456e7e948e64b1d085c5fe99f341b47",
+		"output": "2"
+	},
+	"Functional: Lambdas|Python 3.12": {
+		"hash": "119af1d3c4ea13967a1b8c2727d0b1f84d020ed0",
+		"output": "8"
+	},
+	"Functional: Lambdas|Java (LTS)": {
+		"hash": "18511701d340e5d70272a1c78d1ce4090e6e4b5b",
+		"output": "8"
+	},
+	"Functional: Higher-Order (Map/Filter)|Python 3.12": {
+		"hash": "7810928b08d9c53681b4eebe60cf9de325bf2d45",
+		"output": "[4, 6]"
+	},
+	"Functional: Higher-Order (Map/Filter)|Java (LTS)": {
+		"hash": "99b9bca43cf7470005cc4e65e6124aea33b655d4",
+		"output": "[4, 6]"
+	},
+	"Functional: Immutability (Primary Means)|Python 3.12": {
+		"hash": "3c42675c98410e2e9a14638379a5ab7df83560c9",
+		"output": "1"
+	},
+	"Functional: Immutability (Primary Means)|Java (LTS)": {
+		"hash": "71ba2569d0f8652c7442d3a6f1dbd902b9d9e585",
+		"output": "1"
+	},
+	"Destructuring Assignment|Python 3.12": {
+		"hash": "79b744730bbb590b5cb476e8938cd07cf6667e86",
+		"output": "3"
+	},
+	"Destructuring Assignment|Java (LTS)": {
+		"hash": "a22d202fbd8d66c3fb8960fb5a6f69626d8b25a4",
+		"output": "3"
+	},
+	"Rest/Spread Operators|Python 3.12": {
+		"hash": "9ad8b15fc4d4ddc3131c1b7686fa765c8e3a01fc",
+		"output": "6\n9"
+	},
+	"Rest/Spread Operators|Java (LTS)": {
+		"hash": "0a9760f04dcdffceb6b0abf94bcea0f9402020a1",
+		"output": "6\n9"
+	},
+	"Generic Function|Python 3.12": {
+		"hash": "eeac0a90b6784dba5d9003db1b1189b0ee02294e",
+		"output": "1"
+	},
+	"Generic Function|Java (LTS)": {
+		"hash": "81d67e019437a02797a23aaa7db45893f3078fe5",
+		"output": "1"
+	},
+	"Generic Class/Struct|Python 3.12": {
+		"hash": "98b391742e906fbe6e18b8fa6034bba83a8d4b19",
+		"output": "1"
+	},
+	"Generic Class/Struct|Java (LTS)": {
+		"hash": "92e785d43950fbb123cbb28ef04d6c0d3f101a54",
+		"output": "1"
+	},
+	"Module System Details|Python 3.12": {
+		"hash": "18e298e020cdf92b65aa95bb9c707874d6bd24f4",
+		"output": "4.0"
+	},
+	"Module System Details|Java (LTS)": {
+		"hash": "72466af7436f1864f8925cd3b44a0594b46c8609",
+		"output": "4.0"
+	},
+	"Executing OS Commands|Python 3.12": {
+		"hash": "479ca8469d2438c0912b3cc13625699dca58185c",
+		"output": "hi"
+	},
+	"Executing OS Commands|Java (LTS)": {
+		"hash": "7ffd6810269438170e571a5f90b9fc7b367f240d",
+		"output": "hi"
+	},
+	"Logging|Python 3.12": {
+		"hash": "7ad20d34541c594b3b88018e137274a59ce9322b",
+		"output": ""
+	},
+	"Logging|Java (LTS)": {
+		"hash": "9c923f4c119da02c9b4262aecbab074255d9cb4e",
+		"output": ""
+	},
+	"Async/Await (or primary model)|Python 3.12": {
+		"hash": "cb37dad606d8b849d031a96f365656a4481fb864",
+		"output": "done"
+	},
+	"Async/Await (or primary model)|Java (LTS)": {
+		"hash": "908292dc127db5031a7ef8cb82a71972be5c2398",
+		"output": "done"
+	},
+	"Primary Mechanisms|Python 3.12": {
+		"hash": "e30d18335d58f30f0ef0b29d3f618df4a3a97f27",
+		"output": "HI"
+	},
+	"Primary Mechanisms|Java (LTS)": {
+		"hash": "ba84258b5bba5821d69d218bbbf63371c381d62e",
+		"output": "String"
+	}
+}

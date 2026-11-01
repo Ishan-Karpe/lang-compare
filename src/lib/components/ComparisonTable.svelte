@@ -2,7 +2,22 @@
 	import type { ComparisonRow } from '$lib/types';
 	import CategoryHeader from './CategoryHeader.svelte';
 	import FeatureCard from './FeatureCard.svelte';
-	import { detailLevel, visibleLanguages } from '$lib/stores/uiStore';
+	import {
+		detailLevel,
+		homeLanguage,
+		learnedFeatures,
+		retestSchedule,
+		reviewFeatures,
+		visibleLanguages
+	} from '$lib/stores/uiStore';
+	import {
+		dueSlugs,
+		learningTarget,
+		lessonFeatures,
+		nextLesson,
+		pairKey,
+		rowVisible
+	} from '$lib/utils/learning';
 
 	// accept comparison data as a prop
 	let { comparisonData = [] }: { comparisonData: ComparisonRow[] } = $props();
@@ -26,11 +41,25 @@
 				})()
 	);
 
+	// The topic a finished card's Next button goes to
+	const upcomingLesson = $derived.by(() => {
+		const target = learningTarget($homeLanguage, $visibleLanguages);
+		if (!$homeLanguage || !target) return null;
+		const pair = pairKey($homeLanguage, target);
+		return nextLesson(
+			lessonFeatures(comparisonData, $detailLevel, target),
+			$learnedFeatures[pair] ?? [],
+			$reviewFeatures[pair] ?? [],
+			dueSlugs($retestSchedule[pair], Date.now())
+		);
+	});
+
 	// Reactive derived groupedData based on comparisonData and currentDetailLevel
 	const groupedData = $derived(
 		(() => {
 			// Filter categories based on detail level
 			const filteredData = comparisonData.filter((row) => {
+				if (!rowVisible(row, $visibleLanguages, $homeLanguage)) return false;
 				// Show categories that match or are less complex than current detail level
 				if ($detailLevel === 'expert') {
 					return true; // Show all categories in expert mode
@@ -58,19 +87,27 @@
 
 	// Category descriptions for better context
 	const categoryDescriptions: Record<string, string> = {
-		'Data Structures': 'Arrays, Lists, Maps, Sets, and Collection Types',
+		'Getting Started: Build, Run & Output': 'Compiling, Running, and Printing Your First Program',
+		'Language Core & Typing': 'Variables, Types, Null, and Simple Data Objects',
 		'Control Flow': 'Conditional Statements, Loops, and Flow Control',
-		Functions: 'Function Declarations, Parameters, and Return Values',
-		'Object-Oriented Programming': 'Classes, Inheritance, and Polymorphism',
-		'Error Handling': 'Exception Handling and Error Management',
-		'Concurrency & Async': 'Async/Await, Promises, and Concurrent Programming',
-		'File I/O': 'File Reading, Writing, and Management',
-		Networking: 'HTTP, Sockets, and Network Communication',
-		Testing: 'Unit Tests, Assertions, and Test Frameworks',
+		'Common Data Structures': 'Arrays, Lists, Maps, Sets, and Collection Types',
+		'String Handling': 'Creating, Combining, and Slicing Text',
+		'Functions & Classes': 'Function Declarations, Classes, Inheritance, and Polymorphism',
+		'Ownership & Borrowing': 'Who Owns a Value, and How to Lend It',
+		'Modules, Crates & Tests': 'Organizing Code, Adding Libraries, and Testing',
+		'Errors & Files': 'Exception Handling, File Reading and Writing, and Input',
+		'Functional Programming & Closures': 'Closures, Lambdas, and Map/Filter Pipelines',
+		'Expressive Data Operations': 'Destructuring and Variable-Length Arguments',
+		'Generics & Templates': 'Type Parameters on Functions and Classes',
+		'System Interaction & Tooling': 'Modules, Packages, Logging, Debugging, and Memory',
+		'Testing Frameworks & Ecosystem': 'Unit Tests, Assertions, and Test Frameworks',
+		'Standard Library Capabilities': 'What Each Language Ships With',
+		'Performance Profile (Conceptual)': 'Runtime Model and What Affects Speed',
+		'Typical Use Cases & Ecosystem': 'Where Each Language Is Most Used',
+		'Asynchronous Programming & Concurrency Models':
+			'Async/Await, Threads, and Concurrent Programming',
 		Metaprogramming: 'Reflection, Decorators, and Runtime Manipulation',
-		'Standard Library': 'Built-in Functions and Standard Modules',
-		'Memory Management': 'Allocation, Deallocation, and Memory Control',
-		'Type System': 'Type Annotations, Generics, and Type Safety'
+		'Interoperability (FFI)': 'Calling Native Code and Being Called by It'
 	};
 </script>
 
@@ -84,6 +121,10 @@
 					feature={row.feature}
 					snippets={row.snippets}
 					bridgeNotes={row.bridgeNotes || {}}
+					exercises={row.exercises || {}}
+					requirements={row.requirements || {}}
+					examples={row.examples || {}}
+					{upcomingLesson}
 					visibleLanguages={activeLangs}
 				/>
 			{/each}

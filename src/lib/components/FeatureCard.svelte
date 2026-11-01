@@ -1,20 +1,52 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import type { Snippet } from '$lib/types';
 	import CodeCard from './CodeCard.svelte';
-	import { homeLanguage, selectedFeatures, toggleFeature } from '$lib/stores/uiStore';
+	import PracticePanel from './PracticePanel.svelte';
+	import {
+		assistedFeatures,
+		attemptDrafts,
+		homeLanguage,
+		learnedFeatures,
+		postponeRetest,
+		retestSchedule,
+		reviewFeatures,
+		saveDraft,
+		scheduleRetest,
+		selectedFeatures,
+		setAssisted,
+		setForReview,
+		setLearned,
+		toggleFeature
+	} from '$lib/stores/uiStore';
 	import { bridgeBadge, type BridgeBadge } from '$lib/utils/bridge';
+	import {
+		learningTarget,
+		pairKey,
+		practiceMode,
+		scrollToFeature,
+		type UpcomingLesson
+	} from '$lib/utils/learning';
 	import { slugify } from '$lib/utils/slugify';
 
 	let {
 		feature,
 		snippets,
 		visibleLanguages,
-		bridgeNotes = {}
+		bridgeNotes = {},
+		exercises = {},
+		requirements = {},
+		examples = {},
+		upcomingLesson = null
 	} = $props<{
 		feature: string;
 		snippets: Snippet[];
 		visibleLanguages: string[];
 		bridgeNotes?: Record<string, string>;
+		exercises?: Record<string, { errorCode: string; starter: string }>;
+		requirements?: Record<string, string[][]>;
+		examples?: Record<string, { raw: string; html: string }>;
+		upcomingLesson?: UpcomingLesson | null;
 	}>();
 
 	const homeSnippet = $derived(
@@ -27,7 +59,8 @@
 		(() => {
 			const visible = snippets.filter(
 				(snippet: Snippet) =>
-					visibleLanguages.includes(snippet.language) || snippet.language === $homeLanguage
+					snippet.contentHtml &&
+					(visibleLanguages.includes(snippet.language) || snippet.language === $homeLanguage)
 			);
 			if (!homeSnippet) return visible;
 			return [
@@ -43,12 +76,87 @@
 
 	const featureSlug = $derived(slugify(feature));
 	const inCheatsheet = $derived($selectedFeatures.includes(featureSlug));
+
+	// Learning loop: progress and practice apply to the language being learned.
+	const target = $derived(learningTarget($homeLanguage, visibleLanguages));
+	const pair = $derived($homeLanguage && target ? pairKey($homeLanguage, target) : null);
+	const isLearned = $derived(pair ? ($learnedFeatures[pair] ?? []).includes(featureSlug) : false);
+	const isForReview = $derived(pair ? ($reviewFeatures[pair] ?? []).includes(featureSlug) : false);
+	const isAssisted = $derived(pair ? ($assistedFeatures[pair] ?? []).includes(featureSlug) : false);
+	const retestEntry = $derived(pair ? $retestSchedule[pair]?.[featureSlug] : undefined);
+	const isDue = $derived(retestEntry ? retestEntry.due <= Date.now() : false);
+	const draftKey = $derived(`${pair}|${featureSlug}`);
+
+	// Practice is the default way into a topic, so the answer stays hidden until it's
+	// been attempted. A learned topic shows its answer, with Practice again on offer.
+	let practicing = $state(false);
+
+	function showsPractice(snippet: Snippet): boolean {
+		return (
+			snippet.language === target &&
+			practiceMode(snippet) !== null &&
+			(!isLearned || practicing || isDue)
+		);
+	}
+
+	function completeTopic(answerShown: boolean) {
+		// Keep the panel open so the learner sees the result until they choose to move on.
+		practicing = true;
+		if (!pair) return;
+		const wasLearned = isLearned;
+		// A peek on an earlier visit still counts, until a later clean pass clears it.
+		const helped = answerShown || (!wasLearned && isAssisted);
+		if (helped) {
+			setAssisted(pair, featureSlug, true);
+		} else if (wasLearned) {
+			setAssisted(pair, featureSlug, false);
+		}
+		if (!wasLearned || isDue) scheduleRetest(pair, featureSlug, helped, Date.now());
+		setLearned(pair, featureSlug, true);
+		saveDraft(draftKey, null);
+	}
+
+	async function goToUpcoming() {
+		await tick();
+		if (upcomingLesson) scrollToFeature(upcomingLesson.slug);
+	}
+
+	function finishPractice() {
+		practicing = false;
+		return goToUpcoming();
+	}
+
+	function skip() {
+		if (pair && isDue) {
+			postponeRetest(pair, featureSlug, Date.now());
+		} else if (pair) {
+			setForReview(pair, featureSlug, true);
+		}
+		practicing = false;
+		return goToUpcoming();
+	}
+
+	const BADGES: Record<string, { label: string; className: string }> = {
+		same: { label: '≈ same idea', className: 'badge-success badge-outline' },
+		shift: { label: '↔ new syntax', className: 'badge-info badge-outline' },
+		gotcha: { label: '⚠ gotcha', className: 'badge-warning' },
+		differs: { label: 'differs', className: 'badge-warning badge-outline' }
+	};
 </script>
 
 {#if visibleSnippets.length > 0}
-	<div class="feature-section mb-12 max-w-full">
+	<article id={featureSlug} class="feature-section mb-12 max-w-full scroll-mt-6">
 		<div class="mb-4 flex items-center gap-2 px-2">
 			<h3 class="text-xl font-semibold text-base-content/90">{feature}</h3>
+			{#if isDue}
+				<span class="badge badge-sm badge-info">retest due</span>
+			{:else if isLearned && isAssisted}
+				<span class="badge badge-outline badge-sm badge-success">learned with answer shown</span>
+			{:else if isLearned}
+				<span class="badge badge-sm badge-success">learned</span>
+			{:else if isForReview}
+				<span class="badge badge-sm badge-warning">to review</span>
+			{/if}
 			<button
 				class="btn btn-ghost btn-xs"
 				class:text-primary={inCheatsheet}
@@ -106,55 +214,118 @@
 									{:else if homeSnippet}
 										{@const badge = badgeFor(snippet)}
 										{#if badge?.kind === 'similar'}
-											<span class="badge badge-sm badge-success badge-outline"
+											<span class="badge badge-outline badge-sm badge-success"
 												>≈ like {$homeLanguage}</span
 											>
-										{:else if badge?.note}
-											<span
-												class="badge tooltip tooltip-bottom badge-sm cursor-help badge-warning"
-												data-tip={badge.note}>⚠ differs</span
-											>
 										{:else if badge}
-											<span class="badge badge-sm badge-outline badge-warning">differs</span>
+											<span class="badge badge-sm {BADGES[badge.kind].className}"
+												>{BADGES[badge.kind].label}</span
+											>
 										{/if}
 									{/if}
 								</div>
-								<button
-									class="copy-btn btn btn-square btn-ghost btn-xs"
-									aria-label="Copy code"
-									data-code={snippet.contentHtml}
-								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										class="h-4 w-4"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
+								{#if !showsPractice(snippet)}
+									<button
+										class="copy-btn btn btn-square btn-ghost btn-xs"
+										aria-label="Copy code"
+										data-code={snippet.contentHtml}
 									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-										/>
-									</svg>
-								</button>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="h-4 w-4"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												stroke-width="2"
+												d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+											/>
+										</svg>
+									</button>
+								{/if}
 							</div>
 
-							<!-- Code Content -->
-							<div class="max-w-full overflow-x-auto rounded-b-2xl bg-base-100 px-3 py-4 sm:px-5">
-								<CodeCard {snippet} />
-							</div>
+							{#if showsPractice(snippet)}
+								<div class="rounded-b-2xl bg-base-100 px-3 py-4 sm:px-5">
+									<PracticePanel
+										{snippet}
+										home={$homeLanguage ?? ''}
+										mode={practiceMode(snippet) ?? 'self'}
+										exercise={exercises[snippet.language]}
+										example={examples[snippet.language]}
+										requirements={requirements[snippet.language]}
+										isRetest={isDue}
+										draft={$attemptDrafts[draftKey]}
+										onDraft={(text: string | null) => saveDraft(draftKey, text)}
+										onPeek={() => pair && setAssisted(pair, featureSlug, true)}
+										note={badgeFor(snippet)?.note}
+										{upcomingLesson}
+										onLearned={completeTopic}
+										onSkip={skip}
+										onContinue={finishPractice}
+									/>
+								</div>
+							{:else}
+								<!-- Bridge note: what changes coming from the home language -->
+								{#if homeSnippet && snippet.language !== $homeLanguage && badgeFor(snippet)?.note}
+									{@const badge = badgeFor(snippet)}
+									<div
+										class="bridge-note border-b border-base-300 bg-base-200/30 px-5 py-3 text-sm"
+									>
+										<p class="mb-1 text-xs font-medium text-base-content/60">{badge?.direction}</p>
+										<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+										<p>{@html badge?.note}</p>
+									</div>
+								{/if}
+
+								<!-- Code Content -->
+								<div class="max-w-full overflow-x-auto rounded-b-2xl bg-base-100 px-3 py-4 sm:px-5">
+									<CodeCard {snippet} />
+									{#if snippet.language === target}
+										<div
+											class="mt-3 flex flex-wrap items-center gap-2 border-t border-base-300 pt-3"
+										>
+											{#if practiceMode(snippet)}
+												<span class="text-sm font-medium text-success">✓ Learned</span>
+												<button class="btn btn-outline btn-sm" onclick={() => (practicing = true)}>
+													Practice again
+												</button>
+											{:else}
+												<button
+													class="btn btn-outline btn-sm"
+													class:btn-success={isLearned}
+													aria-pressed={isLearned}
+													onclick={() => pair && setLearned(pair, featureSlug, !isLearned)}
+												>
+													{isLearned ? '✓ Read' : 'Mark as read'}
+												</button>
+											{/if}
+										</div>
+									{/if}
+								</div>
+							{/if}
 						</div>
 					</div>
 				</div>
 			{/each}
 		</div>
-	</div>
+	</article>
 {/if}
 
 <style>
+	.bridge-note :global(code) {
+		border-radius: 0.25rem;
+		background: var(--color-base-300);
+		padding: 0 0.25rem;
+		font-size: 0.85em;
+	}
+
 	.code-card-wrapper {
+		/* Stops wide code from stretching a grid column past the page */
+		min-width: 0;
 		animation: fadeInScale 0.3s ease-out backwards;
 	}
 
@@ -198,13 +369,13 @@
 	/* Responsive adjustments */
 	@media (max-width: 768px) {
 		.grid {
-			grid-template-columns: 1fr;
+			grid-template-columns: minmax(0, 1fr);
 		}
 	}
 
 	@media (min-width: 769px) and (max-width: 1024px) {
 		.grid {
-			grid-template-columns: repeat(2, 1fr);
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
 

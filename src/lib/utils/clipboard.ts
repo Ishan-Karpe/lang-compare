@@ -1,7 +1,7 @@
 /**
  * Copy text to clipboard with feedback
  */
-async function copyToClipboard(text: string): Promise<boolean> {
+export async function copyToClipboard(text: string): Promise<boolean> {
 	try {
 		await navigator.clipboard.writeText(text);
 		return true;

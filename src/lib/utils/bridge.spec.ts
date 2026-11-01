@@ -40,11 +40,27 @@ describe('bridgeBadge', () => {
 	it('prefers a curated note (either direction) and marks it differs', () => {
 		const row = { bridgeNotes: { 'Python 3.12->Rust': 'No GC.' } };
 		const fwd = bridgeBadge(row, home, snip('Rust', 'println!("hi")'));
-		expect(fwd).toEqual({ kind: 'differs', note: 'No GC.' });
+		expect(fwd).toEqual({ kind: 'differs', note: 'No GC.', direction: 'Python 3.12 → Rust' });
 
 		const reverseRow = { bridgeNotes: { 'Rust->Python 3.12': 'GC instead.' } };
 		const rev = bridgeBadge(reverseRow, home, snip('Rust', 'println!("hi")'));
 		expect(rev?.note).toBe('GC instead.');
+		expect(rev?.direction).toBe('Rust → Python 3.12');
+	});
+
+	it('prefers the note written for the learner direction', () => {
+		const row = {
+			bridgeNotes: { 'Rust->Python 3.12': 'Reverse.', 'Python 3.12->Rust': 'Forward.' }
+		};
+		expect(bridgeBadge(row, home, snip('Rust', 'x'))?.note).toBe('Forward.');
+	});
+
+	it('reads the badge kind from the note prefix', () => {
+		const badge = (note: string) =>
+			bridgeBadge({ bridgeNotes: { 'Python 3.12->Rust': note } }, home, snip('Rust', 'x'));
+		expect(badge('Same: Alike.')).toMatchObject({ kind: 'same', note: 'Alike.' });
+		expect(badge('Shift: New syntax.')).toMatchObject({ kind: 'shift', note: 'New syntax.' });
+		expect(badge('Gotcha: Careful.')).toMatchObject({ kind: 'gotcha', note: 'Careful.' });
 	});
 
 	it('falls back to the similarity heuristic without a note', () => {

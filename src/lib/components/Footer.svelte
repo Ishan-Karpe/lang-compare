@@ -4,7 +4,7 @@
 	}
 </script>
 
-<footer class="mt-16 border-t border-base-300 bg-base-200">
+<footer class="mt-16 border-t border-base-300 bg-base-200 print:hidden">
 	<div class="container mx-auto max-w-screen-2xl px-4 py-8">
 		<div class="flex flex-col items-center gap-6">
 			<!-- Back to Top Link -->

@@ -1,8 +1,22 @@
 import type { ComparisonRow, Snippet } from '$lib/types';
 
 export interface BridgeBadge {
-	kind: 'similar' | 'differs';
+	kind: 'similar' | 'differs' | 'same' | 'shift' | 'gotcha';
 	note?: string;
+	/** "<from> → <to>" as the note was written, which may be the reverse pair */
+	direction?: string;
+}
+
+const NOTE_KINDS = { Same: 'same', Shift: 'shift', Gotcha: 'gotcha' } as const;
+
+/** Table notes start with "Same:", "Shift:" or "Gotcha:", which set the badge. */
+function parseNote(raw: string): Pick<BridgeBadge, 'kind' | 'note'> {
+	const match = raw.match(/^(Same|Shift|Gotcha):\s*/);
+	if (!match) return { kind: 'differs', note: raw };
+	return {
+		kind: NOTE_KINDS[match[1] as keyof typeof NOTE_KINDS],
+		note: raw.slice(match[0].length)
+	};
 }
 
 /**
@@ -29,8 +43,8 @@ const SIMILAR_THRESHOLD = 0.5;
 
 /**
  * Badge for `target` relative to the user's home-language snippet.
- * A curated bridge note always wins (and marks the pair as "differs",
- * since notes document gotchas); otherwise fall back to the similarity
+ * A curated bridge note always wins, and a note written for this exact
+ * direction beats the reverse pair; otherwise fall back to the similarity
  * heuristic. Returns null when target IS the home language.
  */
 export function bridgeBadge(
@@ -40,10 +54,14 @@ export function bridgeBadge(
 ): BridgeBadge | null {
 	if (!home || home.language === target.language) return null;
 
-	const note =
-		row.bridgeNotes?.[`${home.language}->${target.language}`] ??
-		row.bridgeNotes?.[`${target.language}->${home.language}`];
-	if (note) return { kind: 'differs', note };
+	const forward = row.bridgeNotes?.[`${home.language}->${target.language}`];
+	if (forward) {
+		return { ...parseNote(forward), direction: `${home.language} → ${target.language}` };
+	}
+	const reverse = row.bridgeNotes?.[`${target.language}->${home.language}`];
+	if (reverse) {
+		return { ...parseNote(reverse), direction: `${target.language} → ${home.language}` };
+	}
 
 	const sim = snippetSimilarity(home.contentRaw ?? '', target.contentRaw ?? '');
 	return sim >= SIMILAR_THRESHOLD ? { kind: 'similar' } : { kind: 'differs' };

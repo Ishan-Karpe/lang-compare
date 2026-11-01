@@ -72,6 +72,14 @@ npm run format           # Auto-format with Prettier
   - `theme`: 'dark' | 'light' | 'black' (default: 'dark')
   - `visibleLanguages`: string[] of selected languages
 
+  - `homeLanguage`: the language the learner knows (null turns Bridge Mode off)
+  - `learnedFeatures`: learned feature slugs per `<home>-><target>` pair
+  - `reviewFeatures`: feature slugs skipped for review per `<home>-><target>` pair
+  - `assistedFeatures`: feature slugs where the answer was shown, per pair
+  - `retestSchedule`: next retest for each passed topic, per pair
+  - `attemptDrafts`: unfinished attempts, keyed by `<pair>|<slug>`
+  - `selectedFeatures`: feature slugs on the cheatsheet
+
 - **Session-only stores**:
   - `detailLevel`: 'simple' | 'detailed' | 'expert' (default: 'simple')
 
@@ -100,8 +108,7 @@ Uses DaisyUI themes applied via `data-theme` attribute on `<html>`. The theme st
 
 ### Drawer (Sidebar) Behavior
 
-- **Desktop (≥1024px)**: Opens by default on mount
-- **Mobile (<1024px)**: Closed by default
+- **Default**: Closed on all screen sizes
 - **Toggle**: Hamburger menu in Header controls drawer state
 - **Z-index**: drawer-side (z-50) > drawer-overlay (z-50), sidebar nav (z-51)
 - **Language toolbar**: z-10 (below drawer)
@@ -115,7 +122,14 @@ When modifying `data/language_comparison.md`:
 1. Follow markdown table format with headers: `| Concept | Description | Python 3.12 | JavaScript (ES6+) | ... |`
 2. Add detail level comments before category headers: `<!-- detail:simple -->`
 3. Code blocks in cells are automatically highlighted by Shiki
-4. Run `npm run build` to regenerate JSON
+4. Add a `<!-- run -->` cell marker when the snippet can run in the browser, `<!-- run:local -->` when it needs a real OS or stdin, or `<!-- shell -->` for terminal commands
+5. Write notes in a `<From> -> <To>` column such as `Python 3.12 -> Rust`. A `Same:`, `Shift:` or `Gotcha:` prefix sets the badge
+6. For a "fix the compiler error" exercise, put the broken code in a `Fix This: <Language>` column, starting with `<!-- fix:E0382 -->`. A `<!-- focus:Rust -->` marker in the Concept cell shows the row only when that language is selected
+7. For an auto-checked exercise, list its concepts in a `Must Use: <Language>` column, one group per line, where a line needs any one of its code spans (`` `insert` or `from` ``). Put a worked example, using different code from the answer, in an `Example: <Language>` column
+8. Run `npm run verify:snippets` after changing Python, Java or Rust cells. It runs them with `$PYTHON` (use a 3.12 interpreter), `javac --release 21` and `rustc --edition 2024`, records stdout in `data/snippet_outputs.json`, and checks each fix exercise's error, each example, and each answer against its required concepts
+9. Run `npm run build` to regenerate JSON
+
+Keep learning content in the tables. `data/bridge_notes.md` only holds notes for other language pairs, and a table note wins when both exist.
 
 ### Adding New Languages
 
@@ -166,7 +180,7 @@ When modifying `data/language_comparison.md`:
 - `src/lib/components/`: All Svelte components
 - `src/lib/stores/`: State management (uiStore.ts)
 - `src/lib/utils/`: Utilities (clipboard, smoothScroll, slugify)
-- `src/lib/data/`: Generated JSON data (gitignored, built from markdown)
+- `src/lib/data/`: Generated JSON data (committed, built from markdown)
 - `src/lib/types.ts`: TypeScript interfaces
 - `scripts/`: Build-time data processing
 - `data/`: Source markdown for language comparisons
@@ -174,7 +188,12 @@ When modifying `data/language_comparison.md`:
 ## Known Behaviors
 
 - **Empty visibleLanguages**: Treated as "show all languages" by ComparisonTable
-- **Language toggle**: Default languages (Java LTS, Python 3.12) set on first mount if store is empty
-- **Drawer state**: Not persisted, resets to default (open on desktop, closed on mobile) on page load
+- **Language toggle**: Default languages (Rust, Python 3.12) set on first mount if store is empty
+- **Drawer state**: Not persisted, resets to closed on page load
+- **Runners**: Each engine loads separately. While learning, only the home and target languages have active runners: they preload when selected, and any other runner is stopped. While browsing, a visible language's runner loads on its first Run click
+- **Practice**: A target-language card hides its answer and note until there's an attempt. Rust attempts go to the Rust Playground and pass only if they compile, print the expected output and use the required concepts. Other languages are self-graded. Skipped topics join a review queue
+- **Retests**: A passed topic comes back after 1, 3, 7, then 21 days, ahead of new topics, then retires. Showing the answer marks the topic as assisted and restarts its schedule. Drafts are saved until the topic passes
+- **Rendering**: The site is fully client-rendered (`ssr = false`), because language choices live in localStorage and `{@html}` keeps mismatched server HTML
+- **Java snippets**: Don't run in the browser. Cards show the output recorded by `npm run verify:snippets`, and Copy program builds a complete `Main.java`
 - **Shiki themes**: Code is highlighted with 'github-dark' theme at build time
 - **Detail level**: Session-only, not persisted across browser sessions

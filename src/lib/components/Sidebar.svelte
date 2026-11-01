@@ -3,25 +3,32 @@
 	// For now, we'll extract it from the JSON file
 	import comparisonData from '$lib/data/comparison-data.json';
 	import { slugify } from '$lib/utils/slugify';
-	import { detailLevel } from '$lib/stores/uiStore';
+	import { detailLevel, homeLanguage, visibleLanguages } from '$lib/stores/uiStore';
+	import { rowVisible } from '$lib/utils/learning';
 	import { SvelteMap } from 'svelte/reactivity';
 
 	// Extract unique categories with their features and detail levels
 	const categories = new SvelteMap<
 		string,
-		{ features: string[]; detailLevel: 'simple' | 'detailed' | 'expert' }
+		{
+			features: string[];
+			focuses: (string | undefined)[];
+			detailLevel: 'simple' | 'detailed' | 'expert';
+		}
 	>();
 
 	for (const row of comparisonData.rows) {
 		if (!categories.has(row.category)) {
 			categories.set(row.category, {
 				features: [],
+				focuses: [],
 				detailLevel: row.categoryDetailLevel as 'simple' | 'detailed' | 'expert'
 			});
 		}
 		const entry = categories.get(row.category)!;
 		if (!entry.features.includes(row.feature)) {
 			entry.features.push(row.feature);
+			entry.focuses.push((row as { focus?: string }).focus);
 		}
 	}
 
@@ -39,6 +46,9 @@
 	const menuItems = $derived(
 		Array.from(categories.entries())
 			.filter(([, entry]) => shouldShowCategory(entry.detailLevel, $detailLevel))
+			.filter(([, entry]) =>
+				entry.focuses.some((focus) => rowVisible({ focus }, $visibleLanguages, $homeLanguage))
+			)
 			.map(([category, entry]) => ({
 				id: slugify(category),
 				label: category,
